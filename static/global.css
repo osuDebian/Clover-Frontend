@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+*{margin: 0; padding: 0;}
+
+body {
+	margin: 0;
+	/* font-family: Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif; */
+	font-family: 'Open Sans', sans-serif;
+	font-size: 14px;
+	color: #fff;
+	background-color: #050317;
+}
+
+@media (min-width: 576px) {
+	.wrap {
+		max-width: 540px;
+	}
+}
+
+@media (min-width: 768px) {
+	.wrap {
+		max-width: 720px;
+	}
+}
+
+@media (min-width: 992px) {
+	.wrap {
+		max-width: 960px;
+	}
+}
+
+@media (min-width: 1200px) {
+	.wrap {
+		max-width: 1140px;
+	}
+}
