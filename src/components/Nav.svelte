@@ -69,7 +69,7 @@
 	}
 
 	a.logo {
-		font-size: 12px;
+		font-size: 0px;
 		padding: 0;
 	}
 
@@ -158,7 +158,9 @@
 	<div class="wrap">
 		<ul>
 			<li>
-				<a class="logo" href="."><h1></h1></a>
+				<a class="logo" href=".">
+					<h1>debian</h1>
+				</a>
 			</li>
 			<li>
 				<a aria-current="{segment === 'leaderboard' ? 'page' : undefined}" href="leaderboard">leaderboard</a>
