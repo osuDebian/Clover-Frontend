@@ -25,65 +25,86 @@
 		background-color: rgb(22 18 52 / 70%);
 	}
 
-	a {
-		text-decoration: none;
-		font-size: 16px;
-		padding: 16px;
-		display: block;
-		color: white;
+	.wrap { 
+		width: 100%;
+		margin: 0 auto;
+		display: flex;
+		align-items: center;
 	}
 
-	nav div { margin: 0 auto; }
-
-	nav div ul {
-		margin: 0 auto;
+	nav div.wrap div.pc { display: flex; }
+	nav div.wrap div.pc > a {
+		display: flex;
+		align-items: center;
+	}
+	nav div.wrap div.pc > div {
 		padding: 0;
 		display: flex;
 		align-items: center;
 	}
 
+	nav div.wrap div.pc > div > a,
+	nav div.wrap div.mobile > div > div.sidebar > div > a{
+		text-decoration: none;
+		font-size: 16px;
+		padding: 10px 15px;
+		display: block;
+		color: white;
+		text-align: center;
+	}
+
+	nav div.wrap div.mobile > div > div.sidebar > button:first-child:hover { color: #100c30; transition: all 200ms ease-in-out; text-shadow: #f1f1f1 0px 0px 5px;}
+
 	@media (min-width: 0){
-		nav div ul { display: none; }
+		nav div.wrap div.pc { display: none !important; }
+		nav div.wrap div.mobile { display: flex !important; }
+		nav div.wrap > div.mobile > div > div.sidebar div:hover .nav-hover { opacity: 0.5; }
+		nav div.wrap > div.mobile > div > div.sidebar .nav-hover:hover { opacity: 1 !important; }
 	}
 
 	@media (min-width: 768px){
-		nav div ul { display: none; }
+		nav div.wrap  div.pc { display: none !important; }
+		nav div.wrap  div.mobile { display: flex }
 	}
 
 	@media (min-width: 769px){
-		nav div ul { display: flex; }
-	}
-
-	nav div ul::after {
-		content: '';
-		display: block;
-		clear: both;
-		visibility: hidden;
-	}
-
-	nav div ul li {
-		display: block;
-		float: left;
-		text-align: center;
-		height: 54px;
+		nav div.wrap  div.pc { display: flex !important; }
+		nav div.wrap  div.mobile { display: none !important; }
+		nav div.wrap > div.mobile > div > div.sidebar:hover .nav-hover { opacity: 0.5; }
+		nav div.wrap > div.mobile > div > div.sidebar .nav-hover:hover { opacity: 1 !important; }
 	}
 
 	a.logo {
 		font-size: 0px;
 		padding: 0;
+		margin: 0 auto;
+		margin: 8px 0;
+		margin-right: 8px;
+		outline: 0;
+		display: flex;
+		align-items: center;
 	}
 
-	nav ul li a.logo h1 {
-		background: url('https://debian.moe/static/debian-trans.png') no-repeat center / cover;
-		width: 54px;
-		height: 54px;
+	a.logo.mobile {
+		margin: 0 auto;
+		width: 64px;
+		height: 64px;
+		display: flex !important;
+		align-items: center;
+		justify-content: center;
 	}
 
-	nav ul li a.logo:hover h1{
-		width: 58px;
-		height: 58px;
-		transition: all 200ms cubic-bezier(1, 0.08, 1, 1)
+	nav a.logo h1 {
+		background: url('https://debian.moe/static/debian-trans.png') no-repeat center / 105%;
+		width: 44px;
+		height: 44px;
+		font-size: 0;
+		transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
 	}
+
+	nav div.wrap > div.pc > a.logo:hover h1{ background: url('https://debian.moe/static/debian-trans.png') no-repeat center / 120%; }
+
+	nav div.wrap > div.mobile > div > div.sidebar > a.logo:hover h1{ background: url('https://debian.moe/static/debian-trans.png') no-repeat center / 120%; }
 
 	[aria-current] {
 		position: relative;
@@ -93,38 +114,36 @@
 	[aria-current]::after {
 		position: absolute;
 		content: '';
-		width: calc(100% - 36px);
-		height: 2px;
+		width: calc(100% - 30px);
+		height: 3px;
 		background-color: rgb(255, 62, 0);
 		display: block;
-		bottom: 0px;
+		bottom: 5px;
 	}
 
-	nav li{
-		transition: all 0.2s ease;
-		-webkit-transition: all 0.2s ease;
-		-moz-transition: all 0.2s ease;
-		-o-transition: all 0.2s ease;
+	button {
+		background-color: transparent;
+		border: none;
 	}
 
-	nav:hover li:nth-of-type(n + 2) { opacity: 0.2; }
-
-	nav:hover ul:hover li:nth-of-type(n + 2) { opacity: 0.5; }
-
-	nav:hover ul:hover li:nth-of-type(n + 2):hover { opacity: 1; }
+	hr { border: 1px solid rgba(255, 255, 255, 0.35); }
 
 	.dropbtn {
 		font-size: 16px;
-		background-color: #100e2c;
+		background-color: transparent;
 		color: white;
-		padding: 16px;
+		padding: 10px 15px;
 		border: none;
-		height: 54px;
+		transition: none;
+		cursor: pointer;
 	}
 
 	.dropdown {
 		position: relative;
-		display: inline-block;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: none;
 	}
 
 	.dropdown-content {
@@ -135,6 +154,11 @@
 		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 		border-radius: 12px;
 		z-index: 1;
+		transition: none;
+		left: 50%;
+		top: 100%;
+		transform: translateX(-50%);
+		padding: 10px 0;
 	}
 
 	.dropdown-content a {
@@ -143,55 +167,161 @@
 		text-decoration: none;
 		display: block;
 		color: #a5a5a5;
+		text-align: center;
 	}
 
-	.dropdown-content a:hover {background-color: rgba(255, 255, 255, 0.15);}
+	.dropdown-content a:hover::after {
+		position: absolute;
+		content: '';
+		width: calc(100% - 30px);
+		height: 2px;
+		background-color: rgb(54 50 94);
+		display: block;
+		left: 50%;
+		transform: translateX(-50%) translateY(60%);
+		animation: dropdownUnderlineAnim 400ms;
+	}
+
+	@keyframes dropdownUnderlineAnim {
+		0% {
+			opacity: 0;
+		}
+
+		100% {
+			opacity: 1;
+		}
+	}
 
 	.dropdown:hover .dropdown-content {display: block;}
 
-	hr {
-		border: 1px solid rgba(255, 255, 255, 0.35);
+	/* The sidebar menu */
+	.sidebar {
+		height: 100%; /* 100% Full-height */
+		width: 0; /* 0 width - change this with JavaScript */
+		position: fixed; /* Stay in place */
+		z-index: 1; /* Stay on top */
+		top: 0;
+		left: 0;
+		background-color: #100c30; /* Black*/
+		overflow-x: hidden; /* Disable horizontal scroll */
+		padding-top: 60px; /* Place content 60px from the top */
+		transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+		display: flex;
+		flex-direction: column;
+	}
+
+	/* When you mouse over the navigation links, change their color */
+	.sidebar a:hover {
+		color: #f1f1f1;
+	}
+
+	/* Position and style the close button (top right corner) */
+	.sidebar .closebtn {
+		position: absolute;
+		top: 0;
+		right: 25px;
+		font-size: 42px;
+		margin-left: 50px;
+	}
+
+	/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+	@media screen and (max-height: 450px) {
+		.sidebar {padding-top: 15px;}
+		.sidebar a {font-size: 18px;}
+	}	
+
+	.sideBtn {
+		padding: 12px;
+		font-size: 32px;
+		color: white;
+		vertical-align: middle;
+	}
+
+	.closebtn {
+		color: white;
+		padding: 12px;
+		cursor: pointer;
 	}
 </style>
 
 <nav>
+	<script>
+		function openNav() {
+    	document.getElementById("sideMenu").style.width = "180px";
+	}
+
+	function closeNav() {
+		document.getElementById("sideMenu").style.width = "0";
+	}
+	</script>
 	<div class="wrap">
-		<ul>
-			<li>
-				<a class="logo" href=".">
-					<h1>debian</h1>
-				</a>
-			</li>
-			<li>
+		<div class="pc">
+			<a class="logo" href=".">
+				<h1>debian</h1>
+			</a>
+			<div>
 				<a aria-current="{segment === 'leaderboard' ? 'page' : undefined}" href="leaderboard">leaderboard</a>
-			</li>
-			<li>
 				<a aria-current="{segment === 'about' ? 'page' : undefined}" href="beatmaps">beatmaps</a>
-			</li>
-			<li>
 				<div class="dropdown">
-					<button class="dropbtn">community</button>
+					<a class="dropbtn">community</a>
 					<div class="dropdown-content">
-						<a href="clan">clan</a>
-						<a href="topplay">Top Plays</a>
-						<a href="matches">matches</a>
+						<a aria-current="{segment === 'clan' ? 'page' : undefined}" href="clan">clan</a>
+						<a aria-current="{segment === 'topplay' ? 'page' : undefined}" href="topplay">Top Plays</a>
+						<a aria-current="{segment === 'matches' ? 'page' : undefined}" href="matches">matches</a>
 					</div>
 				</div>
-			</li>
-			<li>
 				<div class="dropdown">
-					<button class="dropbtn">help</button>
+					<a class="dropbtn">help</a>
 					<div class="dropdown-content">
-						<a href="about">about</a>
-						<a href="docs">docs</a>
-						<a href="docs/rule">rule</a>
-						<a href="terms">Terms of service</a>
+						<a aria-current="{segment === 'about' ? 'page' : undefined}" href="about">about</a>
+						<a aria-current="{segment === 'docs' ? 'page' : undefined}" href="docs">docs</a>
+						<a aria-current="{segment === 'docs/rule' ? 'page' : undefined}" href="docs/rule">rule</a>
+						<a aria-current="{segment === 'terms' ? 'page' : undefined}" href="terms">Terms of service</a>
 						<hr>
 						<a href="Novah.exe">server switcher</a>
 						<a href="https://discord.gg/6VXJ3ky" target="_blank">Discord</a>
 					</div>
 				</div>
-			</li>
-		</ul>
+			</div>
+		</div>
+		<div class="mobile">
+			<div>
+				<div id="sideMenu" class="sidebar">
+					<button class="closebtn" onclick="closeNav()">&times;</button>
+					<a class="logo mobile" href=".">
+						<h1>debian</h1>
+					</a>
+					<div>
+						<a class="nav-hover" aria-current="{segment === 'leaderboard' ? 'page' : undefined}" href="leaderboard">leaderboard</a>
+						<a class="nav-hover" aria-current="{segment === 'beatmaps' ? 'page' : undefined}" href="beatmaps">beatmaps</a>
+						<div class="dropdown nav-hover">
+							<a class="dropbtn">community</a>
+							<div class="dropdown-content">
+								<a aria-current="{segment === 'clan' ? 'page' : undefined}" href="clan">clan</a>
+								<a aria-current="{segment === 'topplay' ? 'page' : undefined}" href="topplay">Top Plays</a>
+								<a aria-current="{segment === 'matches' ? 'page' : undefined}" href="matches">matches</a>
+							</div>
+						</div>
+						<div class="dropdown nav-hover">
+							<a class="dropbtn">help</a>
+							<div class="dropdown-content">
+								<a aria-current="{segment === 'about' ? 'page' : undefined}" href="about">about</a>
+								<a aria-current="{segment === 'docs' ? 'page' : undefined}" href="docs">docs</a>
+								<a aria-current="{segment === 'docs/rule' ? 'page' : undefined}" href="docs/rule">rule</a>
+								<a aria-current="{segment === 'terms' ? 'page' : undefined}" href="terms">Terms of service</a>
+								<hr>
+								<a href="Novah.exe">server switcher</a>
+								<a href="https://discord.gg/6VXJ3ky" target="_blank">Discord</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="sideMenuBtn">
+					<button class="openbtn" onclick="openNav()">
+						<i class="sideBtn fas fa-angle-right"></i>
+					</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </nav>

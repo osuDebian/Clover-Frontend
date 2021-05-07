@@ -13,5 +13,6 @@ polka() // You can also use Express
 		sapper.middleware()
 	)
 	.listen(PORT, err => {
+		console.log('YABE');
 		if (err) console.log('error', err);
 	});
