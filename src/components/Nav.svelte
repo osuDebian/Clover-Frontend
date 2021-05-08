@@ -38,6 +38,7 @@
 		align-items: center;
 	}
 	nav div.wrap div.pc > div {
+		position: relative;
 		padding: 0;
 		display: flex;
 		align-items: center;
@@ -45,12 +46,14 @@
 
 	nav div.wrap div.pc > div > a,
 	nav div.wrap div.mobile > div > div.sidebar > div > a{
+		position: relative;
 		text-decoration: none;
 		font-size: 16px;
 		padding: 10px 15px;
 		display: block;
 		color: white;
 		text-align: center;
+		transition: all 200ms ease-in-out;
 	}
 
 	nav div.wrap div.mobile > div > div.sidebar > button:first-child:hover { color: #100c30; transition: all 200ms ease-in-out; text-shadow: #f1f1f1 0px 0px 5px;}
@@ -58,8 +61,6 @@
 	@media (min-width: 0){
 		nav div.wrap div.pc { display: none !important; }
 		nav div.wrap div.mobile { display: flex !important; }
-		nav div.wrap > div.mobile > div > div.sidebar div:hover .nav-hover { opacity: 0.5; }
-		nav div.wrap > div.mobile > div > div.sidebar .nav-hover:hover { opacity: 1 !important; }
 	}
 
 	@media (min-width: 768px){
@@ -70,8 +71,6 @@
 	@media (min-width: 769px){
 		nav div.wrap  div.pc { display: flex !important; }
 		nav div.wrap  div.mobile { display: none !important; }
-		nav div.wrap > div.mobile > div > div.sidebar:hover .nav-hover { opacity: 0.5; }
-		nav div.wrap > div.mobile > div > div.sidebar .nav-hover:hover { opacity: 1 !important; }
 	}
 
 	a.logo {
@@ -106,6 +105,27 @@
 
 	nav div.wrap > div.mobile > div > div.sidebar > a.logo:hover h1{ background: url('https://debian.moe/static/debian-trans.png') no-repeat center / 120%; }
 
+	nav div.wrap > div.mobile > div > div.sidebar div:hover .nav-hover { opacity: 0.5; }
+
+	nav div.wrap > div.mobile > div > div.sidebar .nav-hover:hover { opacity: 1 !important; }
+	
+	nav div.wrap > div.pc > div:hover .nav-hover { opacity: 0.5; }
+
+	nav div.wrap > div.pc > div:hover .nav-hover:hover { opacity: 1 !important; }
+
+	nav div.wrap > div.pc > div:hover .nav-hover:hover::after {
+		position: absolute;
+		content: '';
+		width: calc(100% - 35px);
+		height: 2px;
+		background-color: rgb(112 128 196);
+		display: block;
+		left: 50%;
+		top: 32px;
+		transform: translateX(-50%) translateY(60%);
+		animation: dropdownUnderlineAnim 400ms;
+	}
+
 	[aria-current] {
 		position: relative;
 		display: inline-block;
@@ -127,6 +147,11 @@
 	}
 
 	hr { border: 1px solid rgba(255, 255, 255, 0.35); }
+
+	button.openbtn { cursor: pointer; color: white; transition: all 200ms ease-out;}
+	
+	button.openbtn:hover{ color: #17152b; text-shadow: 0 0 5px white; }
+
 
 	.dropbtn {
 		font-size: 16px;
@@ -233,7 +258,6 @@
 	.sideBtn {
 		padding: 12px;
 		font-size: 32px;
-		color: white;
 		vertical-align: middle;
 	}
 
@@ -260,9 +284,9 @@
 				<h1>debian</h1>
 			</a>
 			<div>
-				<a aria-current="{segment === 'leaderboard' ? 'page' : undefined}" href="leaderboard">leaderboard</a>
-				<a aria-current="{segment === 'about' ? 'page' : undefined}" href="beatmaps">beatmaps</a>
-				<div class="dropdown">
+				<a class="nav-hover" aria-current="{segment === 'leaderboard' ? 'page' : undefined}" href="leaderboard">leaderboard</a>
+				<a class="nav-hover" aria-current="{segment === 'about' ? 'page' : undefined}" href="beatmaps">beatmaps</a>
+				<div class="nav-hover dropdown">
 					<a class="dropbtn">community</a>
 					<div class="dropdown-content">
 						<a aria-current="{segment === 'clan' ? 'page' : undefined}" href="clan">clan</a>
@@ -270,7 +294,7 @@
 						<a aria-current="{segment === 'matches' ? 'page' : undefined}" href="matches">matches</a>
 					</div>
 				</div>
-				<div class="dropdown">
+				<div class="nav-hover dropdown">
 					<a class="dropbtn">help</a>
 					<div class="dropdown-content">
 						<a aria-current="{segment === 'about' ? 'page' : undefined}" href="about">about</a>
@@ -318,7 +342,8 @@
 				</div>
 				<div id="sideMenuBtn">
 					<button class="openbtn" onclick="openNav()">
-						<i class="sideBtn fas fa-angle-right"></i>
+						<!-- <i class="sideBtn fas fa-angle-right"></i> -->
+						<i class="sideBtn fas fa-stream"></i>
 					</button>
 				</div>
 			</div>
