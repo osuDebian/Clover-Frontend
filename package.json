@@ -9,8 +9,9 @@
     "start": "node __sapper__/build"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "compression": "^1.7.1",
-    "polka": "next",
+    "polka": "^1.0.0-next.15",
     "sirv": "^1.0.0"
   },
   "devDependencies": {

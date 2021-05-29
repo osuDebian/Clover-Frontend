@@ -1,5 +1,8 @@
 <script>
-	
+	import axios from 'axios'
+	let beatmaps = [];
+	$: a = axios.get(`https://nerina.pw/api/v2/search?mode=0&amount=9&status=1&query=sayuri`)
+	.then(response => beatmaps = response.data, console.log('done'))
 </script>
 
 <style>
@@ -214,72 +217,28 @@
 </div>
 
 <div class="beatmaps">
-	<a href="/beatmaps/123456" class="beatmap-block">
-		<div class="beatmap-preview" style='background-image: url("https://b.ppy.sh/thumb/1274098l.jpg")'></div>
-		<div class="beatmap-info">
-			<span class="title">kimi no bouken</span>
-			<span class="artist">by idkidkidk</span>
-			<span class="mapper">mapped by sotarks</span>
-			<div class="beatmap-footer">
-				<span class="ranked">RANKED</span>
-				<div class="beatmap-worked">
-					<span>1hours ago</span>
-					<div class="go-button">
-						<i class="fas fa-arrow-right"></i>
+	{#await a}
+		Beatmap Loading...
+	{:then a} 
+		{#each beatmaps as bmp}
+		<a href="/beatmaps/{bmp.SetID}" class="beatmap-block">
+			<div class="beatmap-preview" style='background-image: url("https://b.ppy.sh/thumb/{bmp.SetID}l.jpg")'></div>
+			<div class="beatmap-info">
+				<span class="title">{bmp.Title}</span>
+				<span class="artist">by {bmp.Artist}</span>
+				<span class="mapper">mapped by {bmp.Creator}</span>
+				<div class="beatmap-footer">
+					<span class="ranked">RANKED</span>
+					<div class="beatmap-worked">
+						<span>1hours ago</span>
+						<div class="go-button">
+							<i class="fas fa-arrow-right"></i>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</a>
-	<a href="/beatmaps/123456" class="beatmap-block">
-		<div class="beatmap-preview" style='background-image: url("https://b.ppy.sh/thumb/1274098l.jpg")'></div>
-		<div class="beatmap-info">
-			<span class="title">kimi no bouken</span>
-			<span class="artist">by idkidkidk</span>
-			<span class="mapper">mapped by sotarks</span>
-			<div class="beatmap-footer">
-				<span class="ranked">RANKED</span>
-				<div class="beatmap-worked">
-					<span>1hours ago</span>
-					<div class="go-button">
-						<i class="fas fa-arrow-right"></i>
-					</div>
-				</div>
-			</div>
-		</div>
-	</a>
-	<a href="/beatmaps/123456" class="beatmap-block">
-		<div class="beatmap-preview" style='background-image: url("https://b.ppy.sh/thumb/1274098l.jpg")'></div>
-		<div class="beatmap-info">
-			<span class="title">kimi no bouken</span>
-			<span class="artist">by idkidkidk</span>
-			<span class="mapper">mapped by sotarks</span>
-			<div class="beatmap-footer">
-				<span class="ranked">RANKED</span>
-				<div class="beatmap-worked">
-					<span>1hours ago</span>
-					<div class="go-button">
-						<i class="fas fa-arrow-right"></i>
-					</div>
-				</div>
-			</div>
-		</div>
-	</a>
-	<a href="/beatmaps/123456" class="beatmap-block">
-		<div class="beatmap-preview" style='background-image: url("https://b.ppy.sh/thumb/1274098l.jpg")'></div>
-		<div class="beatmap-info">
-			<span class="title">kimi no bouken</span>
-			<span class="artist">by idkidkidk</span>
-			<span class="mapper">mapped by sotarks</span>
-			<div class="beatmap-footer">
-				<span class="ranked">RANKED</span>
-				<div class="beatmap-worked">
-					<span>1hours ago</span>
-					<div class="go-button">
-						<i class="fas fa-arrow-right"></i>
-					</div>
-				</div>
-			</div>
-		</div>
-	</a>
+		</a>
+	{/each}
+	{/await}
+	
 </div>
