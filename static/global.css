@@ -1,14 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@font-face {
+    font-family: 'TmoneyRoundWindRegular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindRegular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
 *{margin: 0; padding: 0;}
+
+a {
+	text-decoration: none;
+	color: white;
+}
 
 body {
 	margin: 0;
 	/* font-family: Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif; */
-	font-family: 'Open Sans', sans-serif;
+	font-family: 'TmoneyRoundWindRegular';
+	font-weight: normal;
+	font-style: normal;
 	font-size: 14px;
-	color: #fff;
+	color: #000;
 	background-color: #050317;
+	background-image: url('/images/background.png');
 }
 
 @media (min-width: 576px) {

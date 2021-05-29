@@ -54,6 +54,7 @@
 		color: white;
 		text-align: center;
 		transition: all 200ms ease-in-out;
+		max-width: 114px;
 	}
 
 	nav div.wrap div.mobile > div > div.sidebar > button:first-child:hover { color: #100c30; transition: all 200ms ease-in-out; text-shadow: #f1f1f1 0px 0px 5px;}
@@ -218,7 +219,7 @@
 	}
 
 	.dropdown:hover .dropdown-content {display: block;}
-
+ 
 	/* The sidebar menu */
 	.sidebar {
 		height: 100%; /* 100% Full-height */
@@ -233,6 +234,13 @@
 		transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
 		display: flex;
 		flex-direction: column;
+	}
+
+	.sidebar > div {
+		display: flex;
+		flex-direction: column;
+		align-content: center;
+		align-items: center;
 	}
 
 	/* When you mouse over the navigation links, change their color */

@@ -8,6 +8,7 @@
 <style>
 	h1, p {
 		margin: 0 auto;
+		color: black;
 	}
 
 	h1 {

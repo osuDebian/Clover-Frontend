@@ -8,11 +8,13 @@
 <style>
 	main {
 		position: relative;
-		background-color: #909090;
+		background-color: white;
 		padding: 2em;
 		margin: 0 auto;
+		margin-top: 10px;
 		width: 100%;
 		box-sizing: border-box;
+		border-radius: 8px;
 	}
 </style>
 
