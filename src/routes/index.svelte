@@ -115,7 +115,7 @@
 		height: 100px;
 		background-color: #121123;
 		border-radius: 12px;
-		transition: background-color 200ms ease-in-out, transform 100ms ease-in-out;
+		transition: background-color 200ms ease-in-out, transform 150ms ease-in-out;
 		z-index: 0;
 	}
 
