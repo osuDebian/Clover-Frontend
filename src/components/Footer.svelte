@@ -6,7 +6,7 @@
 <style>
     footer{
         min-height: 90px;
-        position: absolute;
+        position: fixed;
         left: 0;
         bottom: 0;
         width: 100%;
