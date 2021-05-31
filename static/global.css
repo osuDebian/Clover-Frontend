@@ -7,6 +7,10 @@
 
 *{margin: 0; padding: 0;}
 
+html, body, #sapper {
+	height: 100%;
+}
+
 a {
 	text-decoration: none;
 	color: white;
@@ -46,4 +50,18 @@ body {
 	.wrap {
 		max-width: 1140px;
 	}
+}
+
+section {
+	margin-bottom: 2em;
+}
+
+section div.section-title {
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+section div.section-title hr{
+	width: 100px;
+	vertical-align: baseline;
 }

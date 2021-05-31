@@ -295,7 +295,7 @@
 				<a class="nav-hover" aria-current="{segment === 'leaderboard' ? 'page' : undefined}" href="leaderboard">leaderboard</a>
 				<a class="nav-hover" aria-current="{segment === 'about' ? 'page' : undefined}" href="beatmaps">beatmaps</a>
 				<div class="nav-hover dropdown">
-					<a class="dropbtn">community</a>
+					<div class="dropbtn">community</div>
 					<div class="dropdown-content">
 						<a aria-current="{segment === 'clan' ? 'page' : undefined}" href="clan">clan</a>
 						<a aria-current="{segment === 'topplay' ? 'page' : undefined}" href="topplay">Top Plays</a>
@@ -303,7 +303,7 @@
 					</div>
 				</div>
 				<div class="nav-hover dropdown">
-					<a class="dropbtn">help</a>
+					<div class="dropbtn" href=".">help</div>
 					<div class="dropdown-content">
 						<a aria-current="{segment === 'about' ? 'page' : undefined}" href="about">about</a>
 						<a aria-current="{segment === 'docs' ? 'page' : undefined}" href="docs">docs</a>
@@ -327,7 +327,7 @@
 						<a class="nav-hover" aria-current="{segment === 'leaderboard' ? 'page' : undefined}" href="leaderboard">leaderboard</a>
 						<a class="nav-hover" aria-current="{segment === 'beatmaps' ? 'page' : undefined}" href="beatmaps">beatmaps</a>
 						<div class="dropdown nav-hover">
-							<a class="dropbtn">community</a>
+							<div class="dropbtn" href=".">community</div>
 							<div class="dropdown-content">
 								<a aria-current="{segment === 'clan' ? 'page' : undefined}" href="clan">clan</a>
 								<a aria-current="{segment === 'topplay' ? 'page' : undefined}" href="topplay">Top Plays</a>
@@ -335,7 +335,7 @@
 							</div>
 						</div>
 						<div class="dropdown nav-hover">
-							<a class="dropbtn">help</a>
+							<div class="dropbtn" href=".">help</div>
 							<div class="dropdown-content">
 								<a aria-current="{segment === 'about' ? 'page' : undefined}" href="about">about</a>
 								<a aria-current="{segment === 'docs' ? 'page' : undefined}" href="docs">docs</a>
