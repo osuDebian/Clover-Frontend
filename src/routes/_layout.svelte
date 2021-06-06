@@ -16,7 +16,7 @@
 		box-sizing: border-box;
 		border-radius: 8px;
 		/* min-height: 1100px; */
-		min-height: 100%;
+		min-height: 86%;
 	}
 </style>
 

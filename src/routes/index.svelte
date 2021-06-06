@@ -104,11 +104,11 @@
 	}
 
 	/* ? Beatmap */
-	section:nth-child(2) div.section-title h2 {
+	section:nth-child(2) div.section-title h2 i {
 		color: #946cbf;
 	}
 
-	section:nth-child(3) div.section-title h2 {
+	section:nth-child(3) div.section-title h2 i {
 		color: #1c901b;
 	}
 
@@ -176,7 +176,7 @@
 	}
 
 	div.beatmaps a.beatmap-block div.beatmap-info .title{
-		font-size: 20px;
+		font-size: 1.1rem;
 		font-weight: bold;
 	}
 
@@ -195,13 +195,6 @@
 		justify-content: space-between;
 		margin-top: 10px;
 		font-size: 14px;
-	}
-
-	div.beatmaps a.beatmap-block div.beatmap-info div.beatmap-footer .ranked {
-		padding: 2px 5px;
-		background-color: rgb(29, 117, 63);
-		border-radius: 8px;
-		padding-right: 8px;
 	}
 
 	div.beatmaps a.beatmap-block div.beatmap-info div.beatmap-footer .beatmap-worked {
@@ -277,7 +270,7 @@
 
 <section>
 	<div class="section-title">
-		<h2><i class="fas fa-caret-right"></i> Recently Ranked Beatmaps</h2>
+		<h2><i class="fas fa-caret-right"></i> Newest ranked beatmaps</h2>
 	</div>
 	{#await getRecentRanked}
 	<div class="loading" style="color: black;">
@@ -310,7 +303,7 @@
 
 <section>
 	<div class="section-title">
-		<h2><i class="fas fa-caret-right"></i> Most Played Beatmaps</h2>
+		<h2><i class="fas fa-caret-right"></i> Today's most played beatmaps</h2>
 	</div>
 	{#await getMostPlayed}
 	<div class="loading" style="color: black;">
@@ -320,15 +313,15 @@
 	{:then getMostPlayed} 
 	<div class="beatmaps">
 		{#each MostPlayedBeatmaps as bmp}
-			<a href="/beatmaps/{bmp.id}" class="beatmap-block">
-				<div class="beatmap-preview" style='background-image: url("https://b.ppy.sh/thumb/{bmp.id}l.jpg"), url("images/beatmapscover.png")'></div>
+			<a href="/beatmaps/{bmp.beatmapset_id}" class="beatmap-block">
+				<div class="beatmap-preview" style='background-image: url("https://b.ppy.sh/thumb/{bmp.beatmapset_id}l.jpg"), url("images/beatmapscover.png")'></div>
 				<div class="beatmap-info">
 					<span class="title">{bmp.title}</span>
 					<span class="artist">{bmp.artist}</span>
 					<div class="beatmap-footer">
 						<span class="mapper">mapped by <b>{bmp.creator}</b></span>
 						<div class="beatmap-worked">
-							<span>{mixins.addCommas(bmp.playcount)} Plays</span>
+							<span>{mixins.addCommas(bmp.count)} Plays</span>
 							<div class="go-button">
 								<i class="fas fa-arrow-right"></i>
 							</div>

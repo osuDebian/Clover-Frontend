@@ -131,6 +131,7 @@ const timeSince = (date) => MixinTimeSince(date);
 const unixTIme = (t) => MixinUinxTime(t);
 const convertMode = (mode) => MixinConvertMode(mode);
 const convertModeToText = (mode) => MixinConvertModeToText(mode);
+// const convertModeToText = (mode) => MixinConvertModeToText(mode);
 
 const MIXIN = {
     addCommas,
