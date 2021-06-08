@@ -9,7 +9,7 @@
 	main {
 		position: relative;
 		background-color: white;
-		padding: 2em;
+		/* padding: 2em; */
 		margin: 0 auto;
 		margin-top: 10px;
 		width: 100%;

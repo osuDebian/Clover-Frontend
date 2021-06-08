@@ -8,7 +8,7 @@
 	.then(response => serverinfo = response.data);
 	$: getRecentRanked = axios.get(`https://api.debian.moe/web/recent/ranked`)
 	.then(response => recentRankedBeatmaps = response.data);
-	$: getMostPlayed = axios.get(`https://api.debian.moe//web/total/most`)
+	$: getMostPlayed = axios.get(`https://api.debian.moe/web/today/most`)
 	.then(response => MostPlayedBeatmaps = response.data);
 </script>
 
@@ -231,105 +231,107 @@
 	<title>개발중인 사이트임 ㅇㅇ</title>
 </svelte:head>
 
-<section>
-	<div class="information">
-		<div class="txt">
-			<div class="Name">
-				<h1>osu!debian</h1>
+<div class="main-wrapper">
+	<section>
+		<div class="information">
+			<div class="txt">
+				<div class="Name">
+					<h1>osu!debian</h1>
+				</div>
+				<p>Welcome to Debian! Debian is an active South Korean private osu! server operating since May 5th, 2020.</p>
+				{#await getServerInfo}
+					<p>We currently have <i class="fad fa-spinner spin"></i> registered players and <i class="fad fa-spinner spin"></i> players online right now. </p>
+				{:then getServerInfo}
+					{#each serverinfo as server}
+						<p>We currently have <strong>{mixins.addCommas(server.registryCounts)}</strong> registered players and <strong>{mixins.addCommas(server.NowOnline)}</strong> players online right now. </p>
+					{/each} 
+				{/await}
+				<p>You can find information on players, beatmap listing, ranking request, access to the server, and anything else related to Debian in this website.</p>
 			</div>
-			<p>Welcome to Debian! Debian is an active South Korean private osu! server operating since May 5th, 2020.</p>
-			{#await getServerInfo}
-				<p>We currently have <i class="fad fa-spinner spin"></i> registered players and <i class="fad fa-spinner spin"></i> players online right now. </p>
-			{:then getServerInfo}
-				{#each serverinfo as server}
-					<p>We currently have <strong>{mixins.addCommas(server.registryCounts)}</strong> registered players and <strong>{mixins.addCommas(server.NowOnline)}</strong> players online right now. </p>
-				{/each} 
-			{/await}
-			<p>You can find information on players, beatmap listing, ranking request, access to the server, and anything else related to Debian in this website.</p>
+			<div class="btns">
+				<a href="." class="href">
+					<div class="btn pink">
+						회원가입
+					</div>
+				</a>
+				<a href="." class="href">
+					<div class="btn blue">
+						회원가입
+					</div>
+				</a>
+				<a href="." class="href">
+					<div class="btn green">
+						회원가입
+					</div>
+				</a>
+			</div>
 		</div>
-		<div class="btns">
-			<a href="." class="href">
-				<div class="btn pink">
-					회원가입
-				</div>
-			</a>
-			<a href="." class="href">
-				<div class="btn blue">
-					회원가입
-				</div>
-			</a>
-			<a href="." class="href">
-				<div class="btn green">
-					회원가입
-				</div>
-			</a>
+		<div class="Character"></div>
+	</section>
+	
+	<section>
+		<div class="section-title">
+			<h2><i class="fas fa-caret-right"></i> Newest ranked beatmaps</h2>
 		</div>
-	</div>
-	<div class="Character"></div>
-</section>
-
-<section>
-	<div class="section-title">
-		<h2><i class="fas fa-caret-right"></i> Newest ranked beatmaps</h2>
-	</div>
-	{#await getRecentRanked}
-	<div class="loading" style="color: black;">
-		<i class="fad fa-spinner spin"></i>
-		<span>Beatmap Loading...</span>
-	</div>
-	{:then getRecentRanked} 
-	<div class="beatmaps">
-		{#each recentRankedBeatmaps as bmp}
-			<a href="/beatmaps/{bmp.id}" class="beatmap-block">
-				<div class="beatmap-preview" style='background-image: url("https://b.ppy.sh/thumb/{bmp.id}l.jpg"), url("images/beatmapscover.png")'></div>
-				<div class="beatmap-info">
-					<span class="title">{bmp.title}</span>
-					<span class="artist">{bmp.artist}</span>
-					<div class="beatmap-footer">
-						<span class="mapper">mapped by <b>{bmp.creator}</b></span>
-						<div class="beatmap-worked">
-							<span>{mixins.timeSince(bmp.latest_update)}</span>
-							<div class="go-button">
-								<i class="fas fa-arrow-right"></i>
+		{#await getRecentRanked}
+		<div class="loading" style="color: black;">
+			<i class="fad fa-spinner spin"></i>
+			<span>Beatmap Loading...</span>
+		</div>
+		{:then getRecentRanked} 
+		<div class="beatmaps">
+			{#each recentRankedBeatmaps as bmp}
+				<a href="/beatmaps/{bmp.id}" class="beatmap-block">
+					<div class="beatmap-preview" style='background-image: url("https://b.ppy.sh/thumb/{bmp.id}l.jpg"), url("images/beatmapscover.png")'></div>
+					<div class="beatmap-info">
+						<span class="title">{bmp.title}</span>
+						<span class="artist">{bmp.artist}</span>
+						<div class="beatmap-footer">
+							<span class="mapper">mapped by <b>{bmp.creator}</b></span>
+							<div class="beatmap-worked">
+								<span>{mixins.timeSince(bmp.latest_update)}</span>
+								<div class="go-button">
+									<i class="fas fa-arrow-right"></i>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</a>
-		{/each}
-	</div>
-	{/await}
-</section>
-
-<section>
-	<div class="section-title">
-		<h2><i class="fas fa-caret-right"></i> Today's most played beatmaps</h2>
-	</div>
-	{#await getMostPlayed}
-	<div class="loading" style="color: black;">
-		<i class="fad fa-spinner spin"></i>
-		<span>Beatmap Loading...</span>
-	</div>
-	{:then getMostPlayed} 
-	<div class="beatmaps">
-		{#each MostPlayedBeatmaps as bmp}
-			<a href="/beatmaps/{bmp.beatmapset_id}" class="beatmap-block">
-				<div class="beatmap-preview" style='background-image: url("https://b.ppy.sh/thumb/{bmp.beatmapset_id}l.jpg"), url("images/beatmapscover.png")'></div>
-				<div class="beatmap-info">
-					<span class="title">{bmp.title}</span>
-					<span class="artist">{bmp.artist}</span>
-					<div class="beatmap-footer">
-						<span class="mapper">mapped by <b>{bmp.creator}</b></span>
-						<div class="beatmap-worked">
-							<span>{mixins.addCommas(bmp.count)} Plays</span>
-							<div class="go-button">
-								<i class="fas fa-arrow-right"></i>
+				</a>
+			{/each}
+		</div>
+		{/await}
+	</section>
+	
+	<section>
+		<div class="section-title">
+			<h2><i class="fas fa-caret-right"></i> Today's most played beatmaps</h2>
+		</div>
+		{#await getMostPlayed}
+		<div class="loading" style="color: black;">
+			<i class="fad fa-spinner spin"></i>
+			<span>Beatmap Loading...</span>
+		</div>
+		{:then getMostPlayed} 
+		<div class="beatmaps">
+			{#each MostPlayedBeatmaps as bmp}
+				<a href="/beatmaps/{bmp.beatmapset_id}" class="beatmap-block">
+					<div class="beatmap-preview" style='background-image: url("https://b.ppy.sh/thumb/{bmp.beatmapset_id}l.jpg"), url("images/beatmapscover.png")'></div>
+					<div class="beatmap-info">
+						<span class="title">{bmp.title}</span>
+						<span class="artist">{bmp.artist}</span>
+						<div class="beatmap-footer">
+							<span class="mapper">mapped by <b>{bmp.creator}</b></span>
+							<div class="beatmap-worked">
+								<span>{mixins.addCommas(bmp.count)} Plays</span>
+								<div class="go-button">
+									<i class="fas fa-arrow-right"></i>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</a>
-		{/each}
-	</div>
-	{/await}
-</section>
+				</a>
+			{/each}
+		</div>
+		{/await}
+	</section>	
+</div>
