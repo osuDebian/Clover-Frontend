@@ -19,10 +19,28 @@ export default {
             load: true,
             data: [],
             hoverbid: 0,
+            beatmapinfo: {
+                "TotalLength": 0,
+                "BPM": 0,
+                "CircleCount": 0,
+                "SliderCount": 0,
+                "AR": 0,
+                "OD": 0,
+                "HP": 0,
+                "CS": 0,
+                "Difficulty": 0
+            },
+            beatmapcount: {
+                "std": 0,
+                "taiko": 0,
+                "ctb": 0,
+                "mania": 0
+            }
         }
     },
     watch: {
         bid() {
+            this.load = true;
             this.getData();
         },
         relax() {
@@ -34,6 +52,9 @@ export default {
         page() {
             this.getData();
         },
+        hoverbid() {
+            this.getSubData(this.hoverbid);
+        }
     },
     created() {
         this.getData();
@@ -41,6 +62,7 @@ export default {
     methods: {
         async getData() {
             var vm = this;
+            vm.load = true;
             vm.checkparams();
             window.history.replaceState('', document.title, "/beatmaps/" + vm.bid + "?mode=" + vm.mode + "&relax="+vm.relax);
             await vm.$axios({
@@ -52,12 +74,61 @@ export default {
                     "mode": vm.mode,
                     "page": vm.page
                 }
-            })
+            }) 
             .then(response => {
                 vm.data = response.data;
                 vm.hoverbid = response.data.Beatmap.beatmap_id;
+                this.countingBeatmap();
                 vm.load = false;
             })
+        },
+        getSubData(bid) {
+            var vm = this;
+            for (const bmap in vm.data.Beatmaps) {
+                var bmp = vm.data.Beatmaps[bmap];
+                if (bmp.beatmap_id === bid) {
+                    vm.beatmapinfo.TotalLength = bmp.TotalLength;
+                    vm.beatmapinfo.BPM = bmp.BPM;
+                    vm.beatmapinfo.CircleCount = bmp.CircleCount;
+                    vm.beatmapinfo.SliderCount = bmp.SliderCount;
+                    vm.beatmapinfo.AR = bmp.AR;
+                    vm.beatmapinfo.OD = bmp.OD;
+                    vm.beatmapinfo.HP = bmp.HP;
+                    vm.beatmapinfo.CS = bmp.CS;
+                    vm.beatmapinfo.Difficulty = bmp.Difficulty;
+                }
+            }
+        },
+        clearCountBeatmap() {
+            var vm = this;
+            vm.beatmapcount.std = 0;
+            vm.beatmapcount.taiko = 0;
+            vm.beatmapcount.ctb = 0;
+            vm.beatmapcount.mania = 0;
+        },
+        countingBeatmap() {
+            var vm = this;
+            vm.clearCountBeatmap();
+            for (const bmap in vm.data.Beatmaps) {
+                var bmp = vm.data.Beatmaps[bmap];
+                switch (bmp.Mode) {
+                    case 0:
+                        vm.beatmapcount.std += 1;
+                        break
+                    case 1:
+                        vm.beatmapcount.taiko += 1;
+                        break
+                    case 2:
+                        vm.beatmapcount.ctb += 1;
+                        break
+                    case 3:
+                        vm.beatmapcount.mania += 1;
+                        break
+                    default:
+                        vm.beatmapcount.std += 1;
+                        break
+                }
+            }
         },
         diffColor(diff){
             diff = diff / 10;
@@ -408,6 +479,8 @@ export default {
         display: flex;
         flex-direction: row;
         align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
         margin-left: auto;
     }
 
@@ -421,6 +494,27 @@ export default {
 
     div.beatmap-header-mods > div.beatmap-mods > a.beatmap-mods-a {
         cursor: pointer;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        color: #777;
+        transition: color 200ms ease-in-out;
+    }
+
+    div.beatmap-header-mods > div.beatmap-mods > a.beatmap-mods-a:hover{
+        color: rgba(255, 255, 255, 0.801);
+    }
+
+    div.beatmap-header-mods > div.beatmap-mods > a.beatmap-mods-a.active {
+        color: white;
+    }
+
+    div.beatmap-header-mods > div.beatmap-mods > a.beatmap-mods-a > div {
+        padding: 2.5px 5px;
+        background: #151429;
+        margin-left: 2px;
+        border-radius: 6px;
+        color: #ffffffa1;
     }
 
     div.beatmap-thumb {
@@ -465,9 +559,11 @@ export default {
 
     .version-hoverlist-single {
         display: flex;
+        width: 100%;
         flex-direction: column;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: center;
+        
     }
 
     .version-main-info {
@@ -480,6 +576,7 @@ export default {
         display: flex;
         margin-bottom: 6px;
         justify-content: center;
+        padding: 0 2.5em;
     }
 
     .version-more-info {
@@ -576,7 +673,6 @@ export default {
     .version-info {
         display: flex;
         flex-direction: column;
-        width: 350px;
     }
 
     div.beatmap-diff-block {
@@ -591,7 +687,7 @@ export default {
     div.beatmap-diffs {
         display: inline-flex;
         /* padding: 10px; */
-        background: #00000080;
+        background: #4444449e;
         border-radius: 15px;
     }
 
@@ -667,7 +763,7 @@ export default {
     div.beatmap-diff:hover {
         padding: 10px 7.5px;
         border-radius: 15px;
-        background: #170e0ea1;
+        background: #8c8b8ba1;
         box-shadow: 0 0 0 2px #a5a5a5 inset;
     }
 
@@ -723,7 +819,7 @@ export default {
 
     div.beatmap-info {
         display: flex;
-        flex: 2 2 0;
+        flex: 0 2 0;
         padding: 1.5em 3em;
     }
 
@@ -739,6 +835,20 @@ export default {
 
     span.beatmap-info-main-artist {
         font-size: 1.15em;
+    }
+
+    div.beatmap-description {
+        display: flex;
+        flex: 0.8 1 0;
+        padding: 1.5em .75em;
+        border-left: #b3b3b3 1px solid; border-right: #b3b3b3 1px solid;
+        justify-content: center;
+    }
+
+    div.beatmap-description > div.bbcode > a {
+        color: #1000ff;
+        text-decoration-line: inherit;
+        text-decoration: #000;
     }
 
     div.beatmap-stats {
@@ -805,6 +915,48 @@ export default {
         font-size: 17px;
     }
 
+
+    div.scoreboard {
+        display: flex;
+        width: 100%;
+        overflow-x: auto;
+        flex-direction: column;
+    }
+
+    div.scoreboard > div.scoreboard-mods {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-end;
+        /* border-bottom: 1px solid #777; */
+    }
+
+    div.scoreboard > div.scoreboard-mods > div.scoreboard-mods-selector {
+        padding: 0.75em 1em;
+        cursor: pointer;
+        position: relative;
+        border-bottom: 2px #e278f0 solid;
+        display: flex;
+        justify-content: baseline;
+        font-weight: bold;
+        transition: ease-in-out 125ms all;
+        color: #575757;
+    }
+
+    div.scoreboard > div.scoreboard-mods > div.scoreboard-mods-selector:hover {
+        color: #e278f0;
+        border-bottom: 4px #e278f0 solid;
+    }
+
+    div.scoreboard > div.scoreboard-mods > div.scoreboard-mods-selector:first-child {
+        margin-right: 10px;
+    }
+
+    div.scoreboard > div.scoreboard-mods > div.scoreboard-mods-selector.active {
+        border-bottom: 5px #e278f0 solid;
+        color: black;
+    }
+
     .easy {
         color: #88B300;
     }
@@ -853,8 +1005,9 @@ export default {
         background-color: #000 !important;
     }
 
-    @media screen and (max-width: 300px) {
+    @media screen and (max-width: 350px) {
         div.beatmap-header-mods > div.beatmap-mods { margin-right: 10px }
+        div.version-basic-info { padding: 0; }
     }
 
     @media screen and (max-width: 767px) {
@@ -863,10 +1016,10 @@ export default {
         div.beatmap-information > div.beatmap-header > div.beatmap-header-mods { margin-left: 0; margin: 0 auto; }
         div.beatmap-header-mods > div.beatmap-mods:last-child { margin-right: 0; }
         div.beatmap-main { flex-direction: column; }
+        div.beatmap-description { border-left: none; border-right: none; border-top: #b3b3b3 1px solid; border-bottom: #b3b3b3 1px solid; }
     }
     
     @media screen and (min-width: 768px) and (max-width: 1279px) {
-
     }
 
     @media screen and (min-width: 1280px) {
@@ -887,46 +1040,71 @@ export default {
                 </div>
                 <div class="beatmap-header-mods">
                     <div class="beatmap-mods">
-                        <a class="beatmap-mods-a" v-on:click="mode=0">osu!</a>
+                        <a :class="'beatmap-mods-a ' + (mode == 0 ? 'active' : '')" v-on:click="mode=0">osu!
+                            <div v-show=" beatmapcount.std != 0">
+                                {{ beatmapcount.std }}
+                            </div>
+                        </a>
                     </div>
                     <div class="beatmap-mods">
-                        <a class="beatmap-mods-a" v-on:click="mode=1">osu!taiko</a>
+                        <a :class="'beatmap-mods-a ' + (mode == 1 ? 'active' : '')" v-on:click="mode=1">osu!taiko
+                            <div v-show=" beatmapcount.taiko != 0">
+                                {{ beatmapcount.taiko }}
+                            </div>
+                        </a>
                     </div>
                     <div class="beatmap-mods">
-                        <a class="beatmap-mods-a" v-on:click="mode=2">osu!catch</a>
+                        <a :class="'beatmap-mods-a ' + (mode == 2 ? 'active' : '')" v-on:click="mode=2">osu!catch
+                            <div v-show=" beatmapcount.ctb != 0">
+                                {{ beatmapcount.ctb }}
+                            </div>
+                        </a>
                     </div>
                     <div class="beatmap-mods">
-                        <a class="beatmap-mods-a" v-on:click="mode=3">osu!mania</a>
+                        <a :class="'beatmap-mods-a ' + (mode == 3 ? 'active' : '')" v-on:click="mode=3">osu!mania
+                            <div v-show=" beatmapcount.mania != 0">
+                                {{ beatmapcount.mania }}
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
             <div class="beatmap-thumb" :style="'background-image: url(https://assets.ppy.sh/beatmaps/' + data.Beatmap.beatmapset_id + '/covers/cover@2x.jpg), url(data:image/png;base64,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)'">
-                <div class="beatmap-diffs" v-if="load">
-                    <div class="beatmap-diff">
-                        <i class="fad fa-spinner spin"></i> Loading...
-                    </div>
-                </div>
-                <div v-else class="beatmap-diff-block">
+                <div class="beatmap-diff-block">
                     <div class="beatmap-diffs">
-                        <div v-for="(bmp, index) in data.Beatmaps" v-bind:key="index.id" :class="bid == bmp.beatmap_id ? 'beatmap-diff-now' : 'beatmap-diff'" v-on:click="bid = bmp.beatmap_id" v-on:mouseover="hoverbid = bmp.beatmap_id" v-on:mouseleave="hoverbid = data.Beatmap.beatmap_id">
+                        <div v-for="(bmp, index) in data.Beatmaps" v-bind:key="index.id" :class="bid == bmp.beatmap_id ? 'beatmap-diff-now' : 'beatmap-diff'" v-on:click="bid, hoverbid = bmp.beatmap_id" v-on:mouseover="hoverbid = bmp.beatmap_id" v-on:mouseleave="hoverbid = data.Beatmap.beatmap_id">
                             <a v-on:click="bid = bmp.beatmap_id" :class="bid == bmp.beatmap_id ? 'beatmap-diff-icon faa fa-extra-mode-' + convertModeToico(bmp.mode) + ' ' + convertDiffToClass(bmp.Difficulty) : 'beatmap-diff-icon faa fa-extra-mode-' + convertModeToico(bmp.mode) + ' ' + convertDiffToClass(bmp.Difficulty)"></a>
                         </div>
                     </div>
                     <div class="beatmap-map-info" v-for="(bmp, index) in data.Beatmaps" v-bind:key="index.id">
-                        <div class="beatmap-diff-name" v-if="hoverbid == bmp.beatmap_id">
-                            <span class="beatmap-diff-name" id="beatmap-diff">{{ bmp.Diffname }}</span>
-                            <span class="beatmap-diff-star" id="beatmap-star">
-                                <i class="fas fa-star"></i> {{ bmp.Difficulty.toFixed(2) }}
-                            </span>
+                        <div v-if="load">
+                            <div class="beatmap-diff-name" v-if="hoverbid == bmp.beatmap_id">
+                                <span class="beatmap-diff-name" id="beatmap-diff"><i class="fad fa-spinner spin"></i> Loading...</span>
+                                <span class="beatmap-diff-star" id="beatmap-star">
+                                    <i class="fas fa-star"></i> <i class="fad fa-spinner spin"></i>
+                                </span>
+                            </div>
+                            <div class="beatmap-map-name" v-if="hoverbid == bmp.beatmap_id">
+                                <span class="beatmap-map-name-title">{{ data.Beatmap.title }}</span>
+                                <span class="beatmap-map-name-artist">{{ data.Beatmap.artist }}</span>
+                            </div>
                         </div>
-                        <div class="beatmap-map-name" v-if="hoverbid == bmp.beatmap_id">
-                            <span class="beatmap-map-name-title">{{ data.Beatmap.title }}</span>
-                            <span class="beatmap-map-name-artist">{{ data.Beatmap.artist }}</span>
+                        <div v-else>
+                            <div class="beatmap-diff-name" v-if="hoverbid == bmp.beatmap_id">
+                                <span class="beatmap-diff-name" id="beatmap-diff">{{ bmp.Diffname }}</span>
+                                <span class="beatmap-diff-star" id="beatmap-star">
+                                    <i class="fas fa-star"></i> {{ bmp.Difficulty.toFixed(2) }}
+                                </span>
+                            </div>
+                            <div class="beatmap-map-name" v-if="hoverbid == bmp.beatmap_id">
+                                <span class="beatmap-map-name-title">{{ data.Beatmap.title }}</span>
+                                <span class="beatmap-map-name-artist">{{ data.Beatmap.artist }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="beatmap-ranked-status" v-if="load">
-                    <i class="fad fa-spinner spin"></i> Loading...
+                    <span><i class="fad fa-spinner spin"></i> Loading...</span>
                 </div>
                 <div class="beatmap-ranked-status" v-else>
                     {{ convertRankedStatusToText(data.Beatmap.Ranked) }}
@@ -934,15 +1112,15 @@ export default {
             </div>
             <div class="beatmap-main">  
                 <div class="beatmap-info">
-                    <div class="version-hoverlist-single" v-for="(bmp, index) in data.Beatmaps" v-bind:key="index.id">
-                        <div class="version-info" v-if="hoverbid == bmp.beatmap_id">
+                    <div class="version-hoverlist-single">
+                        <div class="version-info">
                             <div class="version-basic-info">
                                 <el-tooltip placement="top" effect="dark">
                                     <div slot="content" class="beatmap-tooltip">
                                         Total Length
                                     </div>
                                     <div class="version-info-line">
-                                        <div class="version-ico length"></div>{{ secondsToTime(bmp.TotalLength) }}
+                                        <div class="version-ico length"></div>{{ secondsToTime(beatmapinfo.TotalLength) }}
                                     </div>
                                 </el-tooltip>
                                 <el-tooltip placement="top" effect="dark">
@@ -950,7 +1128,7 @@ export default {
                                         BPM
                                     </div>
                                     <div class="version-info-line">
-                                        <div class="version-ico bpm"></div>{{ bmp.BPM }}
+                                        <div class="version-ico bpm"></div>{{ beatmapinfo.BPM }}
                                     </div>
                                 </el-tooltip>
                                 <el-tooltip placement="top" effect="dark">
@@ -958,7 +1136,7 @@ export default {
                                         Circle Count
                                     </div>
                                     <div class="version-info-line">
-                                        <div class="version-ico circlecount"></div>{{ addCommas(bmp.CircleCount) }}
+                                        <div class="version-ico circlecount"></div>{{ addCommas(beatmapinfo.CircleCount) }}
                                     </div>
                                 </el-tooltip>
                                 <el-tooltip placement="top" effect="dark">
@@ -966,34 +1144,47 @@ export default {
                                         Slider Count
                                     </div>
                                     <div class="version-info-line-last">
-                                        <div class="version-ico slidercount"></div>{{ addCommas(bmp.SliderCount) }}
+                                        <div class="version-ico slidercount"></div>{{ addCommas(beatmapinfo.SliderCount) }}
                                     </div>
                                 </el-tooltip>
                             </div>
                             <div class="version-more-info">
                                 <div class="version-more-info-line">
                                     <span class="version-more-info-text">Circle Size</span>
-                                    <el-progress :text-inside="true" :format="percentFormat" stroke-width="16" :percentage="convertPercent(bmp.CS)"></el-progress>
+                                    <el-progress :text-inside="true" :format="percentFormat" stroke-width="16" :percentage="convertPercent(beatmapinfo.CS)"></el-progress>
                                 </div>
                                 <div class="version-more-info-line">
                                     <span class="version-more-info-text">HP Drain</span>
-                                    <el-progress :text-inside="true" :format="percentFormat" stroke-width="16" :percentage="convertPercent(bmp.HP)"></el-progress>
+                                    <el-progress :text-inside="true" :format="percentFormat" stroke-width="16" :percentage="convertPercent(beatmapinfo.HP)"></el-progress>
                                 </div>
                                 <div class="version-more-info-line">
                                     <span class="version-more-info-text">Accuracy</span>
-                                    <el-progress :text-inside="true" :format="percentFormat" stroke-width="16" :percentage="convertPercent(bmp.OD)"></el-progress>
+                                    <el-progress :text-inside="true" :format="percentFormat" stroke-width="16" :percentage="convertPercent(beatmapinfo.OD)"></el-progress>
                                 </div>
                                 <div class="version-more-info-line">
                                     <span class="version-more-info-text">Approach Rate</span>
-                                    <el-progress :text-inside="true" :format="percentFormat" stroke-width="16" :percentage="convertPercent(bmp.AR)"></el-progress>
+                                    <el-progress :text-inside="true" :format="percentFormat" stroke-width="16" :percentage="convertPercent(beatmapinfo.AR)"></el-progress>
                                 </div>
                                 <div class="version-more-info-line-last">
                                     <span class="version-more-info-text">Star Difficulty</span>
-                                    <el-progress :text-inside="true" :format="percentFormat" :color="diffColor" stroke-width="16" :percentage="convertPercent(parseFloat(bmp.Difficulty.toFixed(2)))"></el-progress>
+                                    <el-progress :text-inside="true" :format="percentFormat" :color="diffColor" stroke-width="16" :percentage="convertPercent(parseFloat(beatmapinfo.Difficulty.toFixed(2)))"></el-progress>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="beatmap-description">
+                <div class='bbcode bbcode--normal-line-height'>
+                    <span class="proportional-container js-gallery" style="width:2036px;" data-width="2036" data-height="709"
+                        data-index="0" data-gallery-id="1207990098"
+                        data-src="https://i.ppy.sh/bcd4fb416ef1cefb566011e9194fce7f6e0e25f2/68747470733a2f2f692e696d6775722e636f6d2f6c4764533478362e6a7067"><span
+                            class="proportional-container__height" style="padding-bottom:34.823182711198%;"><img
+                                class="proportional-container__content"
+                                src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                                data-normal="https://i.ppy.sh/bcd4fb416ef1cefb566011e9194fce7f6e0e25f2/68747470733a2f2f692e696d6775722e636f6d2f6c4764533478362e6a7067"
+                                alt="" /></span></span><br />corsace 2020 quarter finals tie breaker<br />[odds] | [evens]<br />kkipalt
+                    | Me<br />acrea bg stays dont care<br />hs by me<br /><a rel="nofollow"
+                        href="https://www.pixiv.net/en/artworks/80564727">bg</a><br />f for the feet</div>                    
                 </div>
                 <div class="beatmap-stats">
                     <div class="beatmap-users-block">
@@ -1016,14 +1207,59 @@ export default {
                             </span>
                         </a>
                     </div>
-
+                    <div class="beatmap-success-failed">
+                        <el-progress :percentage="50"></el-progress>
+                        <div class="beatmap-success-failed-text">
+                            <span class="beatmap-success-failed-passcount">{{ data.Beatmap.Passcount }}</span>
+                            <span class="beatmap-success-failed-avg">{{ (Number(data.Beatmap.Passcount) / Number(data.Beatmap.Playcount)) * 100 }}%</span>
+                            <span class="beatmap-success-failed-playcount">{{ data.Beatmap.Playcount }}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
     <section>
-        <div>
-            scrore line
+        <div class="scoreboard">
+            <div class="scoreboard-mods">
+                <div :class="'scoreboard-mods-selector ' + (relax == 0 ? 'active' : '')" v-on:click="relax = 0">Regular</div>
+                <div :class="'scoreboard-mods-selector ' + (relax == 1 ? 'active' : '')" v-on:click="relax = 1">Relax</div>
+            </div>
+            <div class="scoreboard-topplay">
+                123
+            </div>
+            <div class="scoreboard-scores">
+                <div class="scoreboard-score-header">
+                    <div class="scoreboard-score-header-rank">Rank</div>
+                    <div class="scoreboard-score-header-username">Player</div>
+                    <div class="scoreboard-score-header-pp">PP</div>
+                    <div class="scoreboard-score-header-score">Score</div>
+                    <div class="scoreboard-score-header-mods">Mods</div>
+                    <div class="scoreboard-score-header-acc">Accuracy</div>
+                    <div class="scoreboard-score-header-maxcombo">Max Combo</div>
+                    <div class="scoreboard-score-header-c300">300</div>
+                    <div class="scoreboard-score-header-c100">100</div>
+                    <div class="scoreboard-score-header-c50">50</div>
+                    <div class="scoreboard-score-header-miss">Miss</div>
+                    <div class="scoreboard-score-header-date">Date</div>
+                </div>
+                <div class="scoreaboard-score-body">
+                    <div class="scoreboard-score-scores">
+                        <div class="scoreboard-score-scores-rank">Rank</div>
+                        <div class="scoreboard-score-scores-username">Player</div>
+                        <div class="scoreboard-score-scores-pp">PP</div>
+                        <div class="scoreboard-score-scores-score">Score</div>
+                        <div class="scoreboard-score-scores-mods">Mods</div>
+                        <div class="scoreboard-score-scores-acc">Accuracy</div>
+                        <div class="scoreboard-score-scores-maxcombo">Max Combo</div>
+                        <div class="scoreboard-score-scores-c300">300</div>
+                        <div class="scoreboard-score-scores-c100">100</div>
+                        <div class="scoreboard-score-scores-c50">50</div>
+                        <div class="scoreboard-score-scores-miss">Miss</div>
+                        <div class="scoreboard-score-scores-date">Date</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 </div>
