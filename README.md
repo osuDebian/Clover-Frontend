@@ -1,5 +1,9 @@
-# clover-frontend-rewrite
+# Clover
+Clover is osu!Debian's a new frontend Project.
 
+
+
+      
 ## Project setup
 ```
 npm install
