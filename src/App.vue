@@ -44,7 +44,7 @@ main {
 
 a {
 	text-decoration: none;
-	color: white;
+	/* color: white; */
 }
 
 body {
@@ -104,6 +104,48 @@ section div.section-title hr{
 	width: 100px;
 	vertical-align: baseline;
 }
+
+.avatar {
+    outline: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    background: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,.25);
+    border-radius: 4px;
+    width: 70px;
+    height: 70px;
+    flex: none;
+    background-color: #333;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    display: block;
+}
+
+.score-rank {
+    width: 2em;
+    height: 1em;
+    background-size: 100%;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.score-rank--tiny {
+    font-size: 14px;
+}
+
+.score-rank--XH{background-image:url(./assets/images/GradeSmall-SS-Silver.6681366c.svg)}
+.score-rank--X{background-image:url(./assets/images/GradeSmall-SS.a21de890.svg)}
+.score-rank--SH{background-image:url(./assets/images/GradeSmall-S-Silver.811ae28c.svg)}
+.score-rank--S{background-image:url(./assets/images/GradeSmall-S.3b4498a9.svg)}
+.score-rank--A{background-image:url(./assets/images/GradeSmall-A.d785e824.svg)}
+.score-rank--B{background-image:url(./assets/images/GradeSmall-B.e19fc91b.svg)}
+.score-rank--C{background-image:url(./assets/images/GradeSmall-C.6bb75adc.svg)}
+.score-rank--D{background-image:url(./assets/images/GradeSmall-D.6b170c4c.svg)}
 
 .pace {
 	-webkit-pointer-events: none;

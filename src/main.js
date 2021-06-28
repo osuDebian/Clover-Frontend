@@ -5,8 +5,10 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import ElementUI from 'element-ui';
+import VueOdometer from 'v-odometer/src'
 
 Vue.prototype.$axios = axios;
+Vue.component('vue-odometer', VueOdometer);
 Vue.use(ElementUI);
 Vue.config.productionTip = true
 
