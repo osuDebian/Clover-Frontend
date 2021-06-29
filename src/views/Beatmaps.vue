@@ -8,6 +8,12 @@ export default {
             default: 0
         }
     },
+    metaInfo: {
+        // if no subcomponents specify a metaInfo.title, this title will be used
+        title: 'Beatmaps Page',
+        // all titles will be injected into this template
+        titleTemplate: '[BETA] %s | Debian!'
+    },
     data(){
         return {
             tab: 'beatmaps',
@@ -95,7 +101,7 @@ export default {
         async getBeatmapMirrorData() {
             var vm = this;
             vm.load = true;
-            fetch("https://api.nerina.pw/search?m=-1&p=0&s=&nsfw=1&e=&q=%22" + vm.data.Beatmap.beatmapset_id + "%22&sort=ranked_desc&creator=0")
+            fetch("https://api.nerina.pw/beatmapset/" + vm.data.Beatmap.beatmapset_id)
             .then((response) => response.json())
             .then((data) => {
                 vm.BeatmapMirrorData = data[0];
@@ -123,6 +129,201 @@ export default {
                 vm.data.Scores = response.data;
                 vm.load = false;
             })
+        },
+        getScoreMods(m, plus=true){
+            /* eslint-disable */ 
+            var NoFail = 1, Easy = 2, NoVideo = 4,  Hidden = 8,  HardRock = 16,  SuddenDeath = 32,  DoubleTime = 64,  Relax = 128,  HalfTime = 256,  Nightcore = 512, Flashlight = 1024,  Autoplay = 2048,  SpunOut = 4096,  Relax2 = 8192,  Perfect = 16384,  Key4 = 32768,  Key5 = 65536,  Key6 = 131072,  Key7 = 262144,  Key8 = 524288,  keyMod = 1015808,  FadeIn = 1048576,  Random = 2097152,  LastMod = 4194304,  Key9 = 16777216,  Key10 = 33554432,  Key1 = 67108864,  Key3 = 134217728,  Key2 = 268435456,  SCOREV2 = 536870912, r = [], hasNightcore = false, hasPF = false;
+
+            if (m & NoFail) {
+                r.push('NF');
+            }
+            if (m & Easy) {
+                r.push('EZ');
+            }
+            if (m & NoVideo) {
+                r.push('TD');
+            }
+            if (m & Hidden) {
+                r.push('HD');
+            }
+            if (m & Nightcore) {
+                r.push('NC');
+                hasNightcore = true;
+            }
+            if (!hasNightcore && (m & DoubleTime)) {
+                r.push('DT');
+            }
+            if (m & HardRock) {
+                r.push('HR');
+            }
+            if (m & Perfect) {
+                r.push('PF');
+                hasPF = true;
+            }
+            if (m & Relax) {
+                r.push('RX');
+            }
+            if (m & HalfTime) {
+                r.push('HT');
+            }
+            if (m & Flashlight) {
+                r.push('FL');
+            }
+            if (m & Autoplay) {
+                r.push('AP');
+            }
+            if (m & SpunOut) {
+                r.push('SO');
+            }
+            if (m & Relax2) {
+                r.push('AP');
+            }
+            if (!hasPF && (m & SuddenDeath)) {
+                r.push('SD');
+            }
+            if (m & Key4) {
+                r.push('4K');
+            }
+            if (m & Key5) {
+                r.push('5K');
+            }
+            if (m & Key6) {
+                r.push('6K');
+            }
+            if (m & Key7) {
+                r.push('7K');
+            }
+            if (m & Key8) {
+                r.push('8K');
+            }
+            if (m & keyMod) {
+                r.push('');
+            }
+            if (m & FadeIn) {
+                r.push('FD');
+            }
+            if (m & Random) {
+                r.push('RD');
+            }
+            if (m & LastMod) {
+                r.push('CN');
+            }
+            if (m & Key9) {
+                r.push('9K');
+            }
+            if (m & Key10) {
+                r.push('10K');
+            }
+            if (m & Key1) {
+                r.push('1K');
+            }
+            if (m & Key3) {
+                r.push('3K');
+            }
+            if (m & Key2) {
+                r.push('2K');
+            }
+            if (m & SCOREV2) {
+                r.push('V2');
+            }
+            if (r.length > 0) {
+                if (!plus) return r
+                return "+ "+r;
+
+            } else {
+                return ['NM'];
+            }
+        },
+        convertModsToFull(mods) {
+            var result;
+            switch(mods){
+                default:
+                case 'HD':
+                    result = "Hidden"
+                    break;
+                case 'NF':
+                    result = "No Fail"
+                    break;
+                case 'DT':
+                    result = "Double Time"
+                    break;
+                case 'NC':
+                    result = "Night Core"
+                    break;
+                case 'EZ':
+                    result = "Easy"
+                    break;
+                case 'HR':
+                    result = "Hard Rock"
+                    break;
+                case 'PF':
+                    result = "Perfect"
+                    break;
+                case 'RX':
+                    result = "Relax"
+                    break;
+                case 'HT':
+                    result = "Half Time"
+                    break;
+                case 'FL':
+                    result = "Flashlight"
+                    break;
+                case 'AUTO':
+                    result = "Autoplay"
+                    break;
+                case 'SO':
+                    result = "Spun Out"
+                    break;
+                case 'AP':
+                    result = "AutoPliot"
+                    break;
+                case 'SD':
+                    result = "Sudden Death"
+                    break;
+                case 'K4':
+                    result = "4 Keys"
+                    break;
+                case 'K5':
+                    result = "5 Keys"
+                    break;
+                case 'K6':
+                    result = "6 Keys"
+                    break;
+                case 'K7':
+                    result = "7 Keys"
+                    break;
+                case 'K8':
+                    result = "8 Keys"
+                    break;
+                case 'K9':
+                    result = "9 Keys"
+                    break;
+                case 'K10':
+                    result = "10 Keys"
+                    break;
+                case 'K1':
+                    result = "1 Keys"
+                    break;
+                case 'K2':
+                    result = "2 Keys"
+                    break;
+                case 'K3':
+                    result = "3 Keys"
+                    break;
+                case 'V2':
+                    result = "Score V2"
+                    break;
+                case 'RANDOM':
+                    result = "Random"
+                    break;
+                case 'FD':
+                    result = "Fade In"
+                    break;
+                case 'NM':
+                    result = "No Mod"
+                    break;
+            }
+            return result; 
         },
         TagSlice(tags) {
             var vm = this;
@@ -158,7 +359,6 @@ export default {
         },
         getSubData(bid) {
             var vm = this;
-            console.log("get subdata", bid);
             for (const bmap in vm.data.Beatmaps) {
                 var bmp = vm.data.Beatmaps[bmap];
                 if (bmp.beatmap_id === bid) {
@@ -178,7 +378,6 @@ export default {
         },
         Diffmouseleave(b) {
             var vm = this;
-            console.log("diff leave", vm.load);
             if (!vm.load) {
                 vm.hoverbid = b.beatmap_id;
             }
@@ -429,9 +628,6 @@ export default {
             }if (interval === 1){
                 return "about a minute ago";
             }
-            if (seconds < 0){
-                console.log(date, currentTime);
-            }
             return "about " + Math.floor(seconds) + " seconds ago";
         },
         achievedtimeSince: function(date) {
@@ -473,9 +669,6 @@ export default {
                 return interval + " minutes ago";
             }if (interval === 1){
                 return "a minute ago";
-            }
-            if (seconds < 0){
-                console.log(date, currentTime);
             }
             return Math.floor(seconds) + " seconds ago";
         },
@@ -1086,7 +1279,7 @@ a.beatmap-user-block {
 div.beatmap-user-avatar, div.beatmap-user-avatar-debian {
     width: 64px;
     height: 64px;
-    margin: 0 8px 0 0;
+    margin: 0 5px 0 0;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -1185,6 +1378,7 @@ div.scoreboard-topplay {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
+    margin-bottom: 25px;
 }
 
 div.scoreboard-topplay-left-block, div.scoreboard-topplay-right-block {
@@ -1253,6 +1447,120 @@ div.scoreboard-toppplay-stat.header {
     text-transform: uppercase;
     min-width: 50px;
     white-space: nowrap;
+}
+
+div.scoreboard-toppplay-stat-body {
+    display: flex;
+}
+
+/* Scoreboard */
+div.scoreboard-scores-table-block {
+    margin-bottom: 10px;
+    overflow-x: auto;
+    padding: 10px;
+}
+
+table.scoreboard-scores-table {
+    width: 100%;
+    min-width: 800px;
+    font-size: 12px;
+    background-color: transparent;
+}
+
+table.scoreboard-scores-table > thead > tr > th {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding-bottom: 5px;
+}
+
+th.scoreboard-score-hedaer-rank {
+    width: 40px;
+    text-align: right; 
+}
+
+th.scoreboard-score-hedaer-accuracy, th.scoreboard-score-hedaer-grade, th.scoreboard-score-hedaer-score {
+    width: 70px;
+}
+
+th.scoreboard-score-hedaer-flag {
+    width: 25px;
+}
+
+th.scoreboard-score-hedaer-player {
+    width: 180px;
+}
+
+th.scoreboard-score-hedaer-maxcombo {
+    width: 100px;
+}
+
+th.scoreboard-score-hedaer-hitstat {
+    max-width: 55px;
+    min-width: 30px;
+    white-space: nowrap;
+    padding-right: 5px;
+}
+
+th.scoreboard-score-hedaer-miss, th.scoreboard-score-hedaer-pp {
+    width: 50px;
+}
+
+th.scoreboard-score-hedaer-mods {
+    min-width: 50px;
+    padding-left: 5px;
+    display: flex;
+}
+
+tr.scoreboard-scores-table-body-row:nth-child(odd) {
+    background-color: rgb(167 167 167 / 25%);
+}
+
+td.scoreboard-scores-table-cell:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+td.scoreboard-scores-table-cell > a {
+    color: black;
+    text-decoration: none;
+    display: flex;
+    height: 0.95em;
+    padding: 5px 0;
+    align-items: center;
+    justify-content: center;
+}
+
+a.scoreboard-scores-table-cell-content-rank {
+    font-weight: 700;
+    justify-content: flex-end;
+}
+
+a.scoreboard-scores-table-cell-content-grade {
+    justify-content: center;
+}
+
+a.scoreboard-scores-table-cell-content-flag {
+    box-shadow: none;
+}
+
+a.scoreboard-scores-table-cell-content-perfect {
+    color: #b3ff66;
+}
+
+a.scoreboard-scores-table-cell-content-time {
+    white-space: nowrap;
+}
+
+a.scoreboard-scores-table-cell-content-mods {
+    padding-left: 5px;
+    padding-right: 10px;
+    justify-content: flex-start !important;
+}
+
+div.scoreboard-scores-table-mods {
+    display: flex;
+    --mod-height: 18px;
 }
 
 .easy {
@@ -1373,7 +1681,7 @@ div.scoreboard-toppplay-stat.header {
             <div class="beatmap-header">
                 <div class="beatmap-header-info">
                     <div class="beatmap-header-icon"></div>
-                    <span>비트맵 정보</span>
+                    <span>Beatmap Information</span>
                 </div>
                 <div class="beatmap-header-mods">
                     <div class="beatmap-mods">
@@ -1592,7 +1900,7 @@ div.scoreboard-toppplay-stat.header {
                         <div class="scoreboard-topplay-rank-number">
                             #1
                         </div>
-                        <div class="score-rank score-rank--tiny score-rank--SH"></div>
+                        <div :class="'score-rank score-rank--tiny score-rank--' + TopScore.rank"></div>
                     </div>
                     <div class="scoreboard-topplay-avatar">
                         <a :href="'https://debian.moe/' + (relax == 0 ? 'u/' : 'rx/u/') + TopScore.userid" class="avatar userprofile" :style="'background-image: url(https://a.debian.moe/' + TopScore.userid + ')'"></a>
@@ -1602,6 +1910,7 @@ div.scoreboard-toppplay-stat.header {
                         <div class="scoreboard-topplay-user-achieved">
                             achieved {{achievedtimeSince(Number(TopScore.time))}}
                         </div>
+                        <div class="flag-country flag-country--flat" :style="'background-image: url(/img/flags/' + TopScore.country + '.png'"></div>
                     </div>
                 </div>
                 <div class="scoreboard-topplay-right-block">
@@ -1616,7 +1925,11 @@ div.scoreboard-toppplay-stat.header {
                         </div>
                         <div class="scoreboard-toppplay-stat">
                             <div class="scoreboard-toppplay-stat header">MODS</div>
-                            <div class="scoreboard-toppplay-stat-body">HDNC</div>
+                            <div class="scoreboard-toppplay-stat-body">
+                                <el-tooltip v-for="(i, index) in getScoreMods(TopScore.mods, false)" v-bind:key="index.key" class="item" effect="dark" :content="convertModsToFull(i)" placement="top">
+                                    <div :class="'mod mod--' + i"></div>
+                                </el-tooltip>
+                            </div>
                         </div>
                         <div class="scoreboard-toppplay-stat">
                             <div class="scoreboard-toppplay-stat header">ACCURACY</div>
@@ -1645,37 +1958,87 @@ div.scoreboard-toppplay-stat.header {
                     </div>
                 </div>
             </div>
-            <div class="scoreboard-scores">
-                <div class="scoreboard-score-header">
-                    <div class="scoreboard-score-header-rank">Rank</div>
-                    <div class="scoreboard-score-header-username">Player</div>
-                    <div class="scoreboard-score-header-pp">PP</div>
-                    <div class="scoreboard-score-header-score">Score</div>
-                    <div class="scoreboard-score-header-mods">Mods</div>
-                    <div class="scoreboard-score-header-acc">Accuracy</div>
-                    <div class="scoreboard-score-header-maxcombo">Max Combo</div>
-                    <div class="scoreboard-score-header-c300">300</div>
-                    <div class="scoreboard-score-header-c100">100</div>
-                    <div class="scoreboard-score-header-c50">50</div>
-                    <div class="scoreboard-score-header-miss">Miss</div>
-                    <div class="scoreboard-score-header-date">Date</div>
-                </div>
-                <div class="scoreaboard-score-body">
-                    <div class="scoreboard-score-scores">
-                        <div class="scoreboard-score-scores-rank">Rank</div>
-                        <div class="scoreboard-score-scores-username">Player</div>
-                        <div class="scoreboard-score-scores-pp">PP</div>
-                        <div class="scoreboard-score-scores-score">Score</div>
-                        <div class="scoreboard-score-scores-mods">Mods</div>
-                        <div class="scoreboard-score-scores-acc">Accuracy</div>
-                        <div class="scoreboard-score-scores-maxcombo">Max Combo</div>
-                        <div class="scoreboard-score-scores-c300">300</div>
-                        <div class="scoreboard-score-scores-c100">100</div>
-                        <div class="scoreboard-score-scores-c50">50</div>
-                        <div class="scoreboard-score-scores-miss">Miss</div>
-                        <div class="scoreboard-score-scores-date">Date</div>
-                    </div>
-                </div>
+            <div class="scoreboard-scores-table-block">
+                <table class="scoreboard-scores-table">
+                    <thead>
+                        <tr>
+                            <th class="scoreboard-score-hedaer-rank">Rank</th>
+                            <th class="scoreboard-score-hedaer-grade"></th>
+                            <th class="scoreboard-score-hedaer-accuracy">Accuracy</th>
+                            <th class="scoreboard-score-hedaer-flag"></th>
+                            <th class="scoreboard-score-hedaer-player">Player</th>
+                            <th class="scoreboard-score-hedaer-maxcombo">Max Combo</th>
+                            <th class="scoreboard-score-hedaer-hitstat">300</th>
+                            <th class="scoreboard-score-hedaer-hitstat">100</th>
+                            <th class="scoreboard-score-hedaer-hitstat">50</th>
+                            <th class="scoreboard-score-hedaer-hitstat">Miss</th>
+                            <th class="scoreboard-score-hedaer-pp">pp</th>
+                            <th class="scoreboard-score-hedaer-score">Score</th>
+                            <th class="scoreboard-score-hedaer-time">Time</th>
+                            <th class="scoreboard-score-hedaer-mods">Mods</th>
+                        </tr>
+                    </thead>
+                    <tbody class="scoreboard-scores-table-body">
+                        <tr class="scoreboard-scores-table-body-row" v-for="(score, index) in data.Scores" v-bind:key="index.id">
+                            <td class="scoreboard-scores-table-cell">
+                                <a :href="'https://debian.moe/u/' + score.userid" class="scoreboard-scores-table-cell-content-rank">{{ index + 1 }}</a>
+                            </td>
+                            <td class="scoreboard-scores-table-cell">
+                                <a :href="'https://debian.moe/u/' + score.userid" class="scoreboard-scores-table-cell-content-grade">
+                                    <div :class="'score-rank score-rank--more-tiny score-rank--' + score.rank"></div>
+                                </a>
+                            </td>
+                            <td class="scoreboard-scores-table-cell">
+                                <a :href="'https://debian.moe/u/' + score.userid" class="scoreboard-scores-table-cell-content-accuracy">{{ parseFloat(Number(score.accuracy).toFixed()) }}%</a>
+                            </td>
+                            <td class="scoreboard-scores-table-cell">
+                                <a :href="'https://debian.moe/u/' + score.userid" class="scoreboard-scores-table-cell-content-flag">
+                                    <div class="flag-country flag-country--flat" :style="'background-image: url(/img/flags/' + score.country + '.png'"></div>
+                                </a>
+                            </td>
+                            <td class="scoreboard-scores-table-cell">
+                                <a :href="'https://debian.moe/u/' + score.userid" class="scoreboard-scores-table-cell-content">{{ score.username }}</a>
+                            </td>
+                            <td class="scoreboard-scores-table-cell">
+                                <a :href="'https://debian.moe/u/' + score.userid" class="scoreboard-scores-table-cell-content-perfect">{{ addCommas(score.max_combo) }}</a>
+                            </td>
+                            <td class="scoreboard-scores-table-cell">
+                                <a :href="'https://debian.moe/u/' + score.userid" class="scoreboard-scores-table-cell-content">{{ addCommas(score.count300) }}</a>
+                            </td>
+                            <td class="scoreboard-scores-table-cell">
+                                <a :href="'https://debian.moe/u/' + score.userid" class="scoreboard-scores-table-cell-content">{{ addCommas(score.count100) }}</a>
+                            </td>
+                            <td class="scoreboard-scores-table-cell">
+                                <a :href="'https://debian.moe/u/' + score.userid" class="scoreboard-scores-table-cell-content">{{ addCommas(score.count50) }}</a>
+                            </td>
+                            <td class="scoreboard-scores-table-cell">
+                                <a :href="'https://debian.moe/u/' + score.userid" class="scoreboard-scores-table-cell-content">{{ addCommas(score.countmiss) }}</a>
+                            </td>
+                            <td class="scoreboard-scores-table-cell">
+                                <a :href="'https://debian.moe/u/' + score.userid" class="scoreboard-scores-table-cell-content">
+                                    <span>{{ parseFloat(Number(score.pp).toFixed()) }}</span>
+                                </a>
+                            </td>
+                            <td class="scoreboard-scores-table-cell">
+                                <a :href="'https://debian.moe/u/' + score.userid" class="scoreboard-scores-table-cell-content">{{ addCommas(score.score) }}</a>
+                            </td>
+                            <td class="scoreboard-scores-table-cell">
+                                <a :href="'https://debian.moe/u/' + score.userid" class="scoreboard-scores-table-cell-content-time">
+                                    <span>{{ timeSince(score.time) }}</span>
+                                </a>
+                            </td>
+                            <td class="scoreboard-scores-table-cell">
+                                <a :href="'https://debian.moe/u/' + score.userid" class="scoreboard-scores-table-cell-content-mods">
+                                    <div class="scoreboard-scores-table-mods">
+                                        <el-tooltip v-for="(i, index) in getScoreMods(score.mods, false)" v-bind:key="index.key" class="item" effect="dark" :content="convertModsToFull(i)" placement="top">
+                                            <div :class="'mod mod--' + i"></div>
+                                        </el-tooltip>                                        
+                                    </div>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </section>

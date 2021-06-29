@@ -156,6 +156,10 @@ export default {
 </script>
 
 <style>
+	a {
+		color: white;
+	}
+
 	div.loading {
 		width: 100%;
 		margin: 0 auto;

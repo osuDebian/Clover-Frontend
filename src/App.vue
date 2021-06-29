@@ -138,14 +138,126 @@ section div.section-title hr{
     font-size: 14px;
 }
 
-.score-rank--XH{background-image:url(./assets/images/GradeSmall-SS-Silver.6681366c.svg)}
-.score-rank--X{background-image:url(./assets/images/GradeSmall-SS.a21de890.svg)}
-.score-rank--SH{background-image:url(./assets/images/GradeSmall-S-Silver.811ae28c.svg)}
-.score-rank--S{background-image:url(./assets/images/GradeSmall-S.3b4498a9.svg)}
-.score-rank--A{background-image:url(./assets/images/GradeSmall-A.d785e824.svg)}
-.score-rank--B{background-image:url(./assets/images/GradeSmall-B.e19fc91b.svg)}
-.score-rank--C{background-image:url(./assets/images/GradeSmall-C.6bb75adc.svg)}
-.score-rank--D{background-image:url(./assets/images/GradeSmall-D.6b170c4c.svg)}
+.score-rank--more-tiny {
+    font-size: 10px;
+}
+
+.score-rank--XH{background-image:url(./assets/images/grade/GradeSmall-SS-Silver.6681366c.svg)}
+.score-rank--X{background-image:url(./assets/images/grade/GradeSmall-SS.a21de890.svg)}
+.score-rank--SH{background-image:url(./assets/images/grade/GradeSmall-S-Silver.811ae28c.svg)}
+.score-rank--S{background-image:url(./assets/images/grade/GradeSmall-S.3b4498a9.svg)}
+.score-rank--A{background-image:url(./assets/images/grade/GradeSmall-A.d785e824.svg)}
+.score-rank--B{background-image:url(./assets/images/grade/GradeSmall-B.e19fc91b.svg)}
+.score-rank--C{background-image:url(./assets/images/grade/GradeSmall-C.6bb75adc.svg)}
+.score-rank--D{background-image:url(./assets/images/grade/GradeSmall-D.6b170c4c.svg)}
+
+.mod {
+    height: var(--mod-height,22px);
+    width: calc(var(--mod-height, 22px)*45/32);
+    background-size: contain;
+    background-position: 50%;
+    background-repeat: no-repeat;
+}
+
+.mod--NM {
+    background-image: url(./assets/images/mods/mod_no-mod.png);
+}
+.mod--NF {
+    background-image: url(./assets/images/mods/mod_no-fail.png);
+}
+.mod--EZ {
+    background-image: url(./assets/images/mods/mod_easy.png);
+}
+.mod--TD {
+    background-image: url(./assets/images/mods/mod_touchdevice.png);
+}
+.mod--HD {
+    background-image: url(./assets/images/mods/mod_hidden.png);
+}
+.mod--NC {
+    background-image: url(./assets/images/mods/mod_nightcore.png);
+}
+.mod--DT {
+    background-image: url(./assets/images/mods/mod_double-time.png);
+}
+.mod--HR {
+    background-image: url(./assets/images/mods/mod_hard-rock.png);
+}
+.mod--PF {
+    background-image: url(./assets/images/mods/mod_perfect.png);
+}
+.mod--RX {
+    background-image: url(./assets/images/mods/mod_relax.png);
+}
+.mod--HT {
+    background-image: url(./assets/images/mods/mod_half.png);
+}
+.mod--FL {
+    background-image: url(./assets/images/mods/mod_flashlight.png);
+}
+.mod--AP {
+    background-image: url(./assets/images/mods/mod_auto.png);
+}
+.mod--SO {
+    background-image: url(./assets/images/mods/mod_spun-out.png);
+}
+.mod--AP {
+    background-image: url(./assets/images/mods/mod_autopilot.png);
+}
+.mod--SD {
+    background-image: url(./assets/images/mods/mod_sudden-death.png);
+}
+.mod--4K {
+    background-image: url(./assets/images/mods/mod_4Kc.png);
+}
+.mod--5K {
+    background-image: url(./assets/images/mods/mod_5Kc.png);
+}
+.mod--6K {
+    background-image: url(./assets/images/mods/mod_6Kc.png);
+}
+.mod--7K {
+    background-image: url(./assets/images/mods/mod_7Kc.png);
+}
+.mod--8K {
+    background-image: url(./assets/images/mods/mod_8Kc.png);
+}
+.mod--FadeIn {
+    background-image: url(./assets/images/mods/mod_fader.png);
+}
+.mod--Random {
+    background-image: url(./assets/images/mods/mod_random.png);
+}
+.mod--CN {
+    background-image: url(./assets/images/mods/mod_cinema.png);
+}
+.mod--9K {
+    background-image: url(./assets/images/mods/mod_9Kc.png);
+}
+.mod--1K {
+    background-image: url(./assets/images/mods/mod_1Kc.png);
+}
+.mod--3K {
+    background-image: url(./assets/images/mods/mod_3Kc.png);
+}
+.mod--2K {
+    background-image: url(./assets/images/mods/mod_2Kc.png);
+}
+
+.flag-country {
+    --height: 1.25em;
+    --width-height-ratio: 1.48936;
+    box-shadow: 0 1px 3px rgba(0,0,0,.25);
+    height: var(--height);
+    width: calc(var(--height)*var(--width-height-ratio));
+    background-size: cover;
+    background-position: 50%;
+    background-repeat: no-repeat;
+}
+
+.flag-country--flat {
+	box-shadow: none;
+}
 
 .pace {
 	-webkit-pointer-events: none;
