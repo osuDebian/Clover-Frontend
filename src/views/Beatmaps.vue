@@ -130,6 +130,19 @@ export default {
                 vm.load = false;
             })
         },
+        createBmpDlUri: function (id, video) {
+            var json = {
+                'server': 0,
+                'beatmapsetid': id
+            };
+            const json2string = JSON.stringify(json);
+            var conv = btoa(json2string);
+            var downloadUrl = "https://api.nerina.pw/download?b=" + conv;
+            if (video) {
+                downloadUrl += "&noVideo=1";
+            }
+            return downloadUrl;
+        },
         getScoreMods(m, plus=true){
             /* eslint-disable */ 
             var NoFail = 1, Easy = 2, NoVideo = 4,  Hidden = 8,  HardRock = 16,  SuddenDeath = 32,  DoubleTime = 64,  Relax = 128,  HalfTime = 256,  Nightcore = 512, Flashlight = 1024,  Autoplay = 2048,  SpunOut = 4096,  Relax2 = 8192,  Perfect = 16384,  Key4 = 32768,  Key5 = 65536,  Key6 = 131072,  Key7 = 262144,  Key8 = 524288,  keyMod = 1015808,  FadeIn = 1048576,  Random = 2097152,  LastMod = 4194304,  Key9 = 16777216,  Key10 = 33554432,  Key1 = 67108864,  Key3 = 134217728,  Key2 = 268435456,  SCOREV2 = 536870912, r = [], hasNightcore = false, hasPF = false;
@@ -1175,6 +1188,22 @@ div.beatmap-main {
     flex-direction: row;
 }
 
+div.beatmap-left-block {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+}
+
+div.beatmap-right-block {
+    display: flex;
+    flex: 0.4 1 0;
+}
+
+div.beatmap-info-block {
+    display: flex;
+
+}
+
 div.beatmap-info {
     display: flex;
     flex: 0 2 0;
@@ -1197,7 +1226,6 @@ span.beatmap-info-main-artist {
 
 div.beatmap-description {
     display: flex;
-    flex: 0.8 1 0;
     padding: 1.5em .75em;
     border-left: #b3b3b3 1px solid;
     border-right: #b3b3b3 1px solid;
@@ -1236,10 +1264,13 @@ div.beatmap-description > div.bbcode > a {
 }
 
 div.beatmap-stats {
-    flex: 1 1 0;
+    width: 100%;
     padding: 1.5em;
     background: #dedede;
     border-radius: 0 0 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 div.beatmap-stats > div:not(:last-child) {
@@ -1250,6 +1281,11 @@ div.beatmap-stats-single-header {
     font-weight: bold;
     font-size: 1.1em;
     margin-bottom: 5px;
+}
+
+div.beatmap-buttons-block {
+    display: flex;
+    padding: 20px;
 }
 
 div.beatmap-users-block {
@@ -1627,8 +1663,12 @@ div.scoreboard-scores-table-mods {
     div.beatmap-information > div.beatmap-header > div.beatmap-header-mods { margin-left: 0; margin: 0 auto; }
     div.beatmap-header-mods > div.beatmap-mods:last-child { margin-right: 0; }
     div.beatmap-main { flex-direction: column; }
-    div.beatmap-description { border-left: none; border-right: none; border-top: #b3b3b3 1px solid; border-bottom: #b3b3b3 1px solid; }
+    div.beatmap-left-block { flex-direction: column; }
+    div.beatmap-info-block { flex-direction: column; }
     div.version-info { min-width: 330px; }
+    div.beatmap-description { border-left: none; border-right: none; border-top: #b3b3b3 1px solid; border-bottom: #b3b3b3 1px solid; }
+    div.beatmap-buttons-block { flex-direction: column; align-items: center; }
+    div.beatmap-buttons-single:not(:last-child) { margin-bottom: 12px; }
 }
 
 @media screen and (min-width: 768px) and (max-width: 990px) {
@@ -1755,133 +1795,155 @@ div.scoreboard-scores-table-mods {
                     {{ convertRankedStatusToText(data.Beatmap.Ranked) }}
                 </div>
             </div>
-            <div class="beatmap-main">  
-                <div class="beatmap-info">
-                    <div class="version-hoverlist-single">
-                        <div class="version-info">
-                            <div class="version-basic-info">
-                                <el-tooltip placement="top" effect="dark">
-                                    <div slot="content" class="beatmap-tooltip">
-                                        Total Length: {{ secondsToTime(beatmapinfo.TotalLength) }}
+            <div class="beatmap-main">
+                <div class="beatmap-left-block">
+                    <div class="beatmap-info-block">
+                        <div class="beatmap-info">
+                            <div class="version-hoverlist-single">
+                                <div class="version-info">
+                                    <div class="version-basic-info">
+                                        <el-tooltip placement="top" effect="dark">
+                                            <div slot="content" class="beatmap-tooltip">
+                                                Total Length: {{ secondsToTime(beatmapinfo.TotalLength) }}
+                                            </div>
+                                            <div class="version-info-line">
+                                                <div class="version-ico length"></div>
+                                                <vue-odometer :value="secondsToTime2(beatmapinfo.TotalLength)" duration="200" format="(:dd),dd"></vue-odometer>
+                                                <!-- {{ secondsToTime(beatmapinfo.TotalLength) }} -->
+                                            </div>
+                                        </el-tooltip>
+                                        <el-tooltip placement="top" effect="dark">
+                                            <div slot="content" class="beatmap-tooltip">
+                                                BPM: {{ beatmapinfo.BPM }}
+                                            </div>
+                                            <div class="version-info-line">
+                                                <div class="version-ico bpm"></div>
+                                                <vue-odometer :value="beatmapinfo.BPM" duration="200"></vue-odometer>
+                                                <!-- {{ beatmapinfo.BPM }} -->
+                                            </div>
+                                        </el-tooltip>
+                                        <el-tooltip placement="top" effect="dark">
+                                            <div slot="content" class="beatmap-tooltip">
+                                                Circle Count: {{ addCommas(beatmapinfo.CircleCount) }}
+                                            </div>
+                                            <div class="version-info-line">
+                                                <div class="version-ico circlecount"></div>
+                                                <vue-odometer :value="addCommas(beatmapinfo.CircleCount)" duration="200" format="(.ddd),dd"></vue-odometer>
+                                                <!-- {{ addCommas(beatmapinfo.CircleCount) }} -->
+                                            </div>
+                                        </el-tooltip>
+                                        <el-tooltip placement="top" effect="dark">
+                                            <div slot="content" class="beatmap-tooltip">
+                                                Slider Count: {{ addCommas(beatmapinfo.SliderCount) }}
+                                            </div>
+                                            <div class="version-info-line-last">
+                                                <div class="version-ico slidercount"></div>
+                                                <vue-odometer :value="addCommas(beatmapinfo.SliderCount)" duration="200" format="(.ddd),dd"></vue-odometer>
+                                                <!-- {{ addCommas(beatmapinfo.SliderCount) }} -->
+                                            </div>
+                                        </el-tooltip>
                                     </div>
-                                    <div class="version-info-line">
-                                        <div class="version-ico length"></div>
-                                        <vue-odometer :value="secondsToTime2(beatmapinfo.TotalLength)" duration="200" format="(:dd),dd"></vue-odometer>
-                                        <!-- {{ secondsToTime(beatmapinfo.TotalLength) }} -->
+                                    <div class="version-more-info">
+                                        <div class="version-more-info-line">
+                                            <span class="version-more-info-text">Circle Size</span>
+                                            <el-progress :text-inside="true" :format="percentFormat" stroke-width="16" :percentage="convertPercent(beatmapinfo.CS)"></el-progress>
+                                        </div>
+                                        <div class="version-more-info-line">
+                                            <span class="version-more-info-text">HP Drain</span>
+                                            <el-progress :text-inside="true" :format="percentFormat" stroke-width="16" :percentage="convertPercent(beatmapinfo.HP)"></el-progress>
+                                        </div>
+                                        <div class="version-more-info-line">
+                                            <span class="version-more-info-text">Accuracy</span>
+                                            <el-progress :text-inside="true" :format="percentFormat" stroke-width="16" :percentage="convertPercent(beatmapinfo.OD)"></el-progress>
+                                        </div>
+                                        <div class="version-more-info-line">
+                                            <span class="version-more-info-text">Approach Rate</span>
+                                            <el-progress :text-inside="true" :format="percentFormat" stroke-width="16" :percentage="convertPercent(beatmapinfo.AR)"></el-progress>
+                                        </div>
+                                        <div class="version-more-info-line-last">
+                                            <span class="version-more-info-text">Star Difficulty</span>
+                                            <el-progress :text-inside="true" :format="percentFormat" :color="diffColor" stroke-width="16" :percentage="convertPercent(parseFloat(beatmapinfo.Difficulty.toFixed(2)))"></el-progress>
+                                        </div>
                                     </div>
-                                </el-tooltip>
-                                <el-tooltip placement="top" effect="dark">
-                                    <div slot="content" class="beatmap-tooltip">
-                                        BPM: {{ beatmapinfo.BPM }}
-                                    </div>
-                                    <div class="version-info-line">
-                                        <div class="version-ico bpm"></div>
-                                        <vue-odometer :value="beatmapinfo.BPM" duration="200"></vue-odometer>
-                                        <!-- {{ beatmapinfo.BPM }} -->
-                                    </div>
-                                </el-tooltip>
-                                <el-tooltip placement="top" effect="dark">
-                                    <div slot="content" class="beatmap-tooltip">
-                                        Circle Count: {{ addCommas(beatmapinfo.CircleCount) }}
-                                    </div>
-                                    <div class="version-info-line">
-                                        <div class="version-ico circlecount"></div>
-                                        <vue-odometer :value="addCommas(beatmapinfo.CircleCount)" duration="200" format="(.ddd),dd"></vue-odometer>
-                                        <!-- {{ addCommas(beatmapinfo.CircleCount) }} -->
-                                    </div>
-                                </el-tooltip>
-                                <el-tooltip placement="top" effect="dark">
-                                    <div slot="content" class="beatmap-tooltip">
-                                        Slider Count: {{ addCommas(beatmapinfo.SliderCount) }}
-                                    </div>
-                                    <div class="version-info-line-last">
-                                        <div class="version-ico slidercount"></div>
-                                        <vue-odometer :value="addCommas(beatmapinfo.SliderCount)" duration="200" format="(.ddd),dd"></vue-odometer>
-                                        <!-- {{ addCommas(beatmapinfo.SliderCount) }} -->
-                                    </div>
-                                </el-tooltip>
+                                </div>
                             </div>
-                            <div class="version-more-info">
-                                <div class="version-more-info-line">
-                                    <span class="version-more-info-text">Circle Size</span>
-                                    <el-progress :text-inside="true" :format="percentFormat" stroke-width="16" :percentage="convertPercent(beatmapinfo.CS)"></el-progress>
+                        </div>
+                        <div class="beatmap-description">
+                            <div class="beatmap-description-single">
+                                <div class="beatmap-description-single-title">
+                                    <span>Genre</span>
                                 </div>
-                                <div class="version-more-info-line">
-                                    <span class="version-more-info-text">HP Drain</span>
-                                    <el-progress :text-inside="true" :format="percentFormat" stroke-width="16" :percentage="convertPercent(beatmapinfo.HP)"></el-progress>
-                                </div>
-                                <div class="version-more-info-line">
-                                    <span class="version-more-info-text">Accuracy</span>
-                                    <el-progress :text-inside="true" :format="percentFormat" stroke-width="16" :percentage="convertPercent(beatmapinfo.OD)"></el-progress>
-                                </div>
-                                <div class="version-more-info-line">
-                                    <span class="version-more-info-text">Approach Rate</span>
-                                    <el-progress :text-inside="true" :format="percentFormat" stroke-width="16" :percentage="convertPercent(beatmapinfo.AR)"></el-progress>
-                                </div>
-                                <div class="version-more-info-line-last">
-                                    <span class="version-more-info-text">Star Difficulty</span>
-                                    <el-progress :text-inside="true" :format="percentFormat" :color="diffColor" stroke-width="16" :percentage="convertPercent(parseFloat(beatmapinfo.Difficulty.toFixed(2)))"></el-progress>
+                                <div class="beatmap-description-single-description">
+                                    <span>{{ BeatmapMirrorData.genre.name }}</span>
                                 </div>
                             </div>
+                            <div class="beatmap-description-single">
+                                <div class="beatmap-description-single-title">
+                                    <span>Language</span>
+                                </div>
+                                <div class="beatmap-description-single-description">
+                                    <span>{{ BeatmapMirrorData.language.name }}</span>
+                                </div>
+                            </div>
+                            <div class="beatmap-description-single">
+                                <div class="beatmap-description-single-title">
+                                    <span>Tags</span>
+                                </div>
+                                <div class="beatmap-description-single-description">
+                                    <span v-for="(tag, index) in Tags" v-bind:key="index.id">{{ tag }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="beatmap-buttons-block">
+                        <div class="beatmap-buttons-single">
+                            <a :href="createBmpDlUri(data.Beatmap.beatmapset_id,false)" class="href">
+                                <div class="btn green">
+                                    {{ BeatmapMirrorData.video == 0 ? "Download" : "Download with Video"}}
+                                </div>
+                            </a>
+                        </div>
+                        <div class="beatmap-buttons-single" v-if="BeatmapMirrorData.video = 1" v-show="BeatmapMirrorData.video = 1">
+                            <a :href="createBmpDlUri(data.Beatmap.beatmapset_id,true)" class="href">
+                                <div class="btn pink">
+                                    Download Without Video
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>
-                <div class="beatmap-description">
-                    <div class="beatmap-description-single">
-                        <div class="beatmap-description-single-title">
-                            <span>Genre</span>
+                <div class="beatmap-right-block">
+                    <div class="beatmap-stats">
+                        <div class="beatmap-users-block">
+                            <a href="#" class="beatmap-user-block">
+                                <div class="beatmap-user-avatar" :style="'background-image: url(https://a.debian.moe/bancho/u/' + data.Beatmap.Creator + ');'"></div>
+                                <span class="beatmap-user-name">
+                                    Mapped by
+                                    <div class="beatmap-user-name">
+                                        {{ data.Beatmap.Creator }}
+                                    </div>
+                                </span>
+                            </a>
+                            <a href="#" class="beatmap-user-block" v-if="data.Beatmap.RankedbyID != 0">
+                                <div class="beatmap-user-avatar-debian" :style="'background-image: url(https://a.debian.moe/' + data.Beatmap.RankedbyID + ');'"></div>
+                                <span class="beatmap-user-name">
+                                    {{ convertRankedStatusToText(data.Beatmap.Ranked) }} by
+                                    <div class="beatmap-user-name">
+                                        {{ data.Beatmap.Rankedby }}
+                                    </div>
+                                </span>
+                            </a>
                         </div>
-                        <div class="beatmap-description-single-description">
-                            <span>{{ BeatmapMirrorData.genre.name }}</span>
-                        </div>
-                    </div>
-                    <div class="beatmap-description-single">
-                        <div class="beatmap-description-single-title">
-                            <span>Language</span>
-                        </div>
-                        <div class="beatmap-description-single-description">
-                            <span>{{ BeatmapMirrorData.language.name }}</span>
-                        </div>
-                    </div>
-                    <div class="beatmap-description-single">
-                        <div class="beatmap-description-single-title">
-                            <span>Tags</span>
-                        </div>
-                        <div class="beatmap-description-single-description">
-                            <span v-for="(tag, index) in Tags" v-bind:key="index.id">{{ tag }}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="beatmap-stats">
-                    <div class="beatmap-users-block">
-                        <a href="#" class="beatmap-user-block">
-                            <div class="beatmap-user-avatar" :style="'background-image: url(https://a.debian.moe/bancho/u/' + data.Beatmap.Creator + ');'"></div>
-                            <span class="beatmap-user-name">
-                                Mapped by
-                                <div class="beatmap-user-name">
-                                    {{ data.Beatmap.Creator }}
-                                </div>
-                            </span>
-                        </a>
-                        <a href="#" class="beatmap-user-block" v-if="data.Beatmap.RankedbyID != 0">
-                            <div class="beatmap-user-avatar-debian" :style="'background-image: url(https://a.debian.moe/' + data.Beatmap.RankedbyID + ');'"></div>
-                            <span class="beatmap-user-name">
-                                {{ convertRankedStatusToText(data.Beatmap.Ranked) }} by
-                                <div class="beatmap-user-name">
-                                    {{ data.Beatmap.Rankedby }}
-                                </div>
-                            </span>
-                        </a>
-                    </div>
-                    <div class="beatmap-success-failed">
-                        <div class="beatmap-stats-single-header">
-                            <span>Success Rate</span>
-                        </div>
-                        <el-progress :show-text=false :percentage="calcSuccessRate(data.Beatmap.Passcount, data.Beatmap.Playcount)"></el-progress>
-                        <div class="beatmap-success-failed-text">
-                            <span class="beatmap-success-failed-passcount">{{ data.Beatmap.Passcount }}</span>
-                            <span class="beatmap-success-failed-avg">{{ calcSuccessRate(data.Beatmap.Passcount, data.Beatmap.Playcount) }}%</span>
-                            <span class="beatmap-success-failed-playcount">{{ data.Beatmap.Playcount }}</span>
+                        <div class="beatmap-success-failed">
+                            <div class="beatmap-stats-single-header">
+                                <span>Success Rate</span>
+                            </div>
+                            <el-progress :show-text=false :percentage="calcSuccessRate(data.Beatmap.Passcount, data.Beatmap.Playcount)"></el-progress>
+                            <div class="beatmap-success-failed-text">
+                                <span class="beatmap-success-failed-passcount">{{ data.Beatmap.Passcount }}</span>
+                                <span class="beatmap-success-failed-avg">{{ calcSuccessRate(data.Beatmap.Passcount, data.Beatmap.Playcount) }}%</span>
+                                <span class="beatmap-success-failed-playcount">{{ data.Beatmap.Playcount }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -259,6 +259,37 @@ section div.section-title hr{
 	box-shadow: none;
 }
 
+div.btn {
+	padding: 12.5px 55px;
+	display: inline-flex;
+	text-align: center;
+	color: white;
+	background-image: url('./assets/images/button.svg');
+	background-size: 150%;
+	transition: background-position 200ms ease-in-out;
+	border-radius: 25px;
+	margin-right: 10px;
+}
+
+div.btn:hover {
+	background-position-x: -50px;
+}
+
+div.btn.pink {
+	background-color: #f6a;
+	box-shadow: 0 4px #86386b, 0 2px 2px #000;
+}
+
+div.btn.blue {
+	background-color: rgb(102, 117, 255);
+	box-shadow: 0 4px #393886, 0 2px 2px #000;
+}
+
+div.btn.green {
+	background-color: rgb(75, 190, 114);
+	box-shadow: 0 4px #38864b, 0 2px 2px #000;
+}
+
 .pace {
 	-webkit-pointer-events: none;
 	pointer-events: none;
