@@ -15,6 +15,10 @@ const routes = [
   },
   {
     path: '/leaderboard',
+    redirect: '/leaderboard/vanilla/osu/performance'
+  },
+  {
+    path: '/leaderboard/:relax/:mode/:type',
     name: 'Leaderboard',
     component: () => import('../views/Leaderboard.vue')
   },
