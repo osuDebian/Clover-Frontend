@@ -305,7 +305,7 @@ export default {
                     <h1>debian</h1>
                 </a>
                 <div>
-                    <router-link class="nav-hover" to="/leaderboard" :aria-current="tab == 'beatmaps' ? 'page' : null">leaderboard</router-link>
+                    <router-link class="nav-hover" to="/leaderboard/vanilla/osu/performance" :aria-current="tab == 'leaderboard' ? 'page' : null">leaderboard</router-link>
                     <router-link class="nav-hover" to="/beatmaps" :aria-current="tab == 'beatmaps' ? 'page' : null">beatmaps</router-link>
                     <div class="nav-hover dropdown">
                         <div class="dropbtn">community</div>
