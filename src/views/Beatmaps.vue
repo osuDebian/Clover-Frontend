@@ -765,10 +765,6 @@ export default {
 </script>
 
 <style>
-@font-face {
-    font-family: FontAwesomeExtra;
-    src: url(../assets/fonts/extra.ttf) format("truetype")
-}
 
 .spin {
     animation-name: spin;
@@ -785,26 +781,6 @@ export default {
     100% {
         transform: rotateZ(360deg);
     }
-}
-
-.faa {
-    font-family: FontAwesomeExtra;
-}
-
-.fa-extra-mode-osu:before {
-    content: "\E800";
-}
-
-.fa-extra-mode-fruits:before {
-    content: "\E801";
-}
-
-.fa-extra-mode-mania:before {
-    content: "\E802";
-}
-
-.fa-extra-mode-taiko:before {
-    content: "\E803";
 }
 
 /* ?Beatmap Header */

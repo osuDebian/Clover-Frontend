@@ -1,40 +1,48 @@
 <template>
 <div>
-    <section>
+    <section class="leaderboard-section">
         <div class="leaderboard-header">
             <div class="header-image"></div>
-            <div>
+            <div class="leaderboard-selectors">
                 <ul class="leaderboard-mods-selector">
                     <li>
-                        <a v-on:click="select_relax = 'vanilla'">Vanilla</a>
+                        <a :class="select_relax == 'vanilla' ? 'active' : ''" v-on:click="select_relax = 'vanilla'">Vanilla</a>
                     </li>
                     <li>
-                        <a v-on:click="select_relax = 'relax'">Relax</a>
+                        <a :class="select_relax == 'relax' ? 'active' : ''" v-on:click="select_relax = 'relax'">Relax</a>
                     </li>
                 </ul>
                 <ul class="leaderboard-type-selector">
                     <li>
-                        <a v-on:click="select_type = 'performance'">Performance</a>
+                        <a :class="select_type == 'performance' ? 'active' : ''" v-on:click="select_type = 'performance'">Performance</a>
                     </li>
                     <li>
-                        <a v-on:click="select_type = 'score'">Score</a>
+                        <a :class="select_type == 'score' ? 'active' : ''"  v-on:click="select_type = 'score'">Score</a>
+                    </li>
+                </ul>
+                <ul class="leaderboard-mode-selector">
+                    <li>
+                        <a :class="select_mode == 'osu' ? 'active' : ''" v-on:click="select_mode = 'osu'">
+                            <i class="faa fa-extra-mode-osu expert"></i> osu!
+                        </a>
+                    </li>
+                    <li>
+                        <a :class="select_mode == 'taiko' ? 'active' : ''" v-on:click="select_mode = 'taiko'">
+                            <i class="faa fa-extra-mode-taiko expert"></i> Taiko
+                        </a>
+                    </li>
+                    <li>
+                        <a :class="select_mode == 'catch' ? 'active' : ''" v-on:click="select_mode = 'catch'">
+                            <i class="faa fa-extra-mode-fruits expert"></i> Catch the Beat
+                        </a>
+                    </li>
+                    <li>
+                        <a :class="select_mode == 'mania' ? 'active' : ''" v-on:click="select_mode = 'mania'">
+                            <i class="faa fa-extra-mode-mania expert"></i> Mania
+                        </a>
                     </li>
                 </ul>
             </div>
-            <ul class="leaderboard-mode-selector">
-                <li>
-                    <a v-on:click="select_mode = 'osu'">osu!</a>
-                </li>
-                <li>
-                    <a v-on:click="select_mode = 'taiko'">Taiko</a>
-                </li>
-                <li>
-                    <a v-on:click="select_mode = 'catch'">Catch the Beat</a>
-                </li>
-                <li>
-                    <a v-on:click="select_mode = 'mania'">Mania</a>
-                </li>
-            </ul>
         </div>
     </section>
     <section>
@@ -56,7 +64,9 @@
                 <tbody>
                     <tr v-for="(score, index) in data" v-bind:key="index.id">
                         <td>{{ index + 1 }}</td>
-                        <td>{{ score.username }}</td>
+                        <td>
+                            <a :href="'https://debian.moe/u/' + score.id">{{ score.username }}</a>
+                        </td>
                         <td>{{ score.accuracy.toFixed(2) }}</td>
                         <td>{{ score.playcount }}</td>
                         <td>{{ score.pp }}</td>
@@ -232,5 +242,22 @@ export default {
 </script>
 
 <style>
+section.leaderboard-section { background-color: #fff; }
+section.leaderboard-section > .leaderboard-header { background-image: linear-gradient(to right, rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.6)), url('https://assets.ppy.sh/beatmaps/707032/covers/cover@2x.jpg?1622784772'); background-position: center; background-size: cover; display: flex; position: relative; flex-direction: column; padding: 20px 0;}
+.leaderboard-header > .header-image { position: absolute; left: 0; top: 0; }
+.leaderboard-header > .leaderboard-selectors { display: flex; flex-direction: column; margin-bottom: 10px; align-items: center; padding: 10px;}
+.leaderboard-selectors > ul { list-style: none; display: flex; flex-direction: row; position: relative; flex-wrap: wrap; justify-content: center; }
+.leaderboard-selectors > ul:not(:last-child) { margin-bottom: 20px; } 
+.leaderboard-selectors > ul > li { cursor: pointer; }
+.leaderboard-selectors > ul > li:not(:last-child) { margin-right: 10px; }
+.leaderboard-selectors > ul > li > a { opacity: 0.5; color: rgb(255, 255, 255); position: relative; font-size: 14px; padding: 5px 8px; }
+.leaderboard-selectors > ul > li > a::after { border-radius: 12px; position: absolute; left: 0; bottom: 0; width: 100%; height: 2px; content: ''; background-color: rgb(93, 214, 174); transition: height 200ms ease-in-out, opacity 200ms ease-in-out; }
+.leaderboard-selectors > ul > li > a.active { opacity: 1; font-weight: 500; }
+.leaderboard-selectors > ul > li > a.active::after { height: 4px; }
 
+td > a { color: rgb(49, 33, 136); font-weight: bold; }
+
+@media screen and (max-width: 400px) {
+    .leaderboard-selectors > ul.leaderboard-mode-selector > li:nth-of-type(2) { margin-bottom: 10px; }
+}
 </style>

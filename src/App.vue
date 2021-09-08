@@ -105,6 +105,32 @@ section div.section-title hr{
 	vertical-align: baseline;
 }
 
+@font-face {
+    font-family: FontAwesomeExtra;
+    src: url(./assets/fonts/extra.ttf) format("truetype")
+}
+
+.faa {
+    font-family: FontAwesomeExtra;
+	font-style: normal;
+}
+
+.fa-extra-mode-osu:before {
+    content: "\E800";
+}
+
+.fa-extra-mode-fruits:before {
+    content: "\E801";
+}
+
+.fa-extra-mode-mania:before {
+    content: "\E802";
+}
+
+.fa-extra-mode-taiko:before {
+    content: "\E803";
+}
+
 .avatar {
     outline: none;
     border: none;
