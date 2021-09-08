@@ -251,6 +251,7 @@ section.leaderboard-section > .leaderboard-header { background-image: linear-gra
 .leaderboard-selectors > ul > li { cursor: pointer; }
 .leaderboard-selectors > ul > li:not(:last-child) { margin-right: 10px; }
 .leaderboard-selectors > ul > li > a { opacity: 0.5; color: rgb(255, 255, 255); position: relative; font-size: 14px; padding: 5px 8px; }
+.leaderboard-selectors > ul > li > a > i { color: #fff; }
 .leaderboard-selectors > ul > li > a::after { border-radius: 12px; position: absolute; left: 0; bottom: 0; width: 100%; height: 2px; content: ''; background-color: rgb(93, 214, 174); transition: height 200ms ease-in-out, opacity 200ms ease-in-out; }
 .leaderboard-selectors > ul > li > a.active { opacity: 1; font-weight: 500; }
 .leaderboard-selectors > ul > li > a.active::after { height: 4px; }

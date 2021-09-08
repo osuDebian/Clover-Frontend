@@ -168,7 +168,7 @@ export default {
 	}
 
 	/* ?Information */
-	section:nth-of-type(1) {
+	.main-wrapper > section:nth-of-type(1) {
 		display: flex;
 		position: relative;
 		max-height: 440px;

@@ -765,7 +765,6 @@ export default {
 </script>
 
 <style>
-
 .spin {
     animation-name: spin;
     animation-duration: 1.5s;
@@ -1690,7 +1689,7 @@ div.scoreboard-scores-table-mods {
 </style>
 
 <template>
-<div>
+<div class="BeatmapPage">
     <section>
         <!-- test | bid: {{ bid }} mode: {{ mode }} relax: {{ relax }} page: {{ page }} -->
         <div class="beatmap-information">

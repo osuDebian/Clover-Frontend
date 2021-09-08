@@ -40,6 +40,7 @@ main {
 	border-radius: 8px;
 	/* min-height: 1100px; */
 	min-height: 86%;
+	/* height: 100vh; */
 }
 
 a {
