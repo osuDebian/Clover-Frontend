@@ -800,7 +800,7 @@ section.leaderboard-section > .leaderboard-header { background-image: linear-gra
 .leaderboard-selectors > ul > li > a:hover { opacity: 0.8; }
 .leaderboard-selectors > ul > li > a:hover::after { height: 3px; }
 .leaderboard-selectors > ul > li > a > i { color: #fff; }
-.leaderboard-selectors > ul > li > a.active { opacity: 1; font-weight: 500; }
+.leaderboard-selectors > ul > li > a.active { opacity: 1; font-weight: 500; text-shadow: 0 0 5px rgba(128, 128, 128, 0.3); }
 .leaderboard-selectors > ul > li > a.active::after { height: 4px; }
 
 section.leaderboard--body { max-width: 95%; margin: 0 auto; box-shadow: 0 0 5px black; }
