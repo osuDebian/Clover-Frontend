@@ -169,6 +169,15 @@ section div.section-title hr{
     font-size: 10px;
 }
 
+.flags {
+	width: 30px;
+	background-position: center;
+	background-size: cover;
+	background-image:url(./assets/images/flags/__.png);
+	border-radius: 4px;
+	margin-right: 5px;
+}
+
 .score-rank--XH{background-image:url(./assets/images/grade/GradeSmall-SS-Silver.6681366c.svg)}
 .score-rank--X{background-image:url(./assets/images/grade/GradeSmall-SS.a21de890.svg)}
 .score-rank--SH{background-image:url(./assets/images/grade/GradeSmall-S-Silver.811ae28c.svg)}
