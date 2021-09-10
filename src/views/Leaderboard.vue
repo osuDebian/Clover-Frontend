@@ -826,7 +826,7 @@ section.leaderboard--body { max-width: 95%; margin: 0 auto; box-shadow: 0 0 5px 
 @media screen and (max-width: 1280px) {
     .leaderboard-selectors > ul > l i> a { font-size: 14px; }
 }
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 432px) {
     .leaderboard-selectors > ul.leaderboard-mode-selector > li:nth-of-type(2) { margin-bottom: 10px; }
 }
 </style>
